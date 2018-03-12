@@ -1,0 +1,155 @@
+﻿@model ShopDemo.ViewModels.AdminProductDetailsViewModel
+@using ShopDemo.CustomHelpers;
+
+@{
+    ViewBag.Title = "Szczegóły produktu";
+}
+
+<h2>@Model.Name</h2>
+
+<div>
+    <form id="ajaxAntiForgeryTokenForm" action="#" method="post">@Html.AntiForgeryToken()</form>
+    <hr />
+
+    <div class="row pull-right body-content">
+        @Html.ActionLink("Edytuj", "EditProduct", new { productId = Model.ProductId }, new { @class = "btn btn-warning" })
+        @Html.ActionLink("Historia zamówień", "ProductOrderHistory","Statistics", new { productId = Model.ProductId, productName = Model.Name.ToSeoUrl() }, new { @class = "btn btn-info" })
+    </div>
+
+    @Html.HiddenFor(model=>model.ProductId)
+
+    @{
+        if (Model.IsInPromotion)
+        {
+            <h3 id="onPromotion" style="color:red;font-style:italic">Promocja!<br /></h3>
+        }else { <h3>&nbsp;</h3>}
+    }
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductCategories)
+        </dt>
+        <dd>
+            <ul class="list-inline">
+                <li>@Html.ActionLink("Produkty", (string)ViewBag.PreviousActionName, "Product")</li>
+                @foreach (var category in Model.ProductCategories)
+                {
+                    <li><a href="@Url.Action((string)ViewBag.PreviousActionName,"Product",new { categoryId = category.CategoryId, categoryName = category.Name.ToSeoUrl()})"><span>&raquo;</span>@category.Name</a></li>
+                }
+            </ul>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductGallery)
+        </dt>
+
+        <dd>
+            @if (Model.ProductGallery.Count == 0)
+            {
+                @("Brak zdjęć w galerii")
+            }
+            else
+            {
+                for (int i = 0; i < Model.ProductGallery.Count; i++)
+                {
+                    <a class="fancybox" rel="group" href="@Url.Content(Model.ProductGallery[i].PhotoPath)"><img class="img-thumbnail" src="@Url.Content(Model.ProductGallery[i].PhotoThumbPath)" alt="Zdjęcie niedostępne" /></a>
+                }
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OldPrice)
+        </dt>
+
+        <dd>
+            @{
+                if (Model.IsInPromotion)
+                {
+                    <s style="color: red"><span>@Html.DisplayFor(p => Model.OldPrice)</span></s><br />
+                    @Html.DisplayFor(p => Model.NewPrice)
+                }
+                else
+                {
+                    @Html.DisplayFor(p => Model.OldPrice)
+                }
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Description.Replace(Environment.NewLine, "<br />"))
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeletedFromOfferDate)
+        </dt>
+
+        <dd>
+                @if (Model.DeletedFromOfferDate == default(DateTime))
+                {
+                    @("Produkt nie jest wycofany z oferty")
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.DeletedFromOfferDate)
+                }
+        </dd>
+    </dl>
+    <br />
+    <h4>Specyfikacja techniczna</h4>
+    <hr />
+    @{
+        if (Model.ProductDetails.Count != 0)
+        {
+            <dl class="dl-horizontal large-dl">
+                @{
+                    foreach (var item in Model.ProductDetails)
+                    {
+                        <dt>
+                            @Html.DisplayFor(model => item.DetailName)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => item.DetailValue)
+                        </dd>
+                    }
+                }
+            </dl>
+        }
+        else
+        {
+            <p>Brak danych</p>
+        }
+    }
+</div>
+
+@Html.Partial("_ConfirmModalPartial")
+
+<br />
+<div id="comments" class="body-content" data-url="@Url.Action("GetAllProductComments", "ProductRate")">
+    <h4>Opinie o produkcie</h4>
+    <img src="@Url.Content("~/Content/defaultLoader.gif")" alt="Wczytywanie..." />
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/fancyboxjs", "~/bundles/adminProductDetails")
+    @Styles.Render("~/Content/fancyboxcss")
+}

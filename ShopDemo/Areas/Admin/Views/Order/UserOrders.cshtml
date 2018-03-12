@@ -1,0 +1,23 @@
+﻿@model IEnumerable<ShopDemo.ViewModels.UserOrdersListViewModel>
+
+@{
+    ViewBag.Title = "Zamówienia użytkownika";
+}
+
+<h2>Zamówienia użytkownika</h2>
+
+@{
+    if (ViewBag.UserEmail != null)
+    {
+        <p><small><i>Użytkownik:</i>&nbsp;</small>@Html.ActionLink((string)ViewBag.UserEmail, "Details","User", new { id = ViewBag.UserId }, new { @class = "undecorated" })</p>
+    }
+}
+
+<br />
+
+@{
+    foreach (var order in Model)
+    {
+        @Html.DisplayFor(m => order, "UserOrdersList")
+    }
+}

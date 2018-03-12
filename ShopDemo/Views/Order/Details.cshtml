@@ -1,0 +1,86 @@
+﻿@model ShopDemo.ViewModels.OrderDetailViewModel
+@using ShopDemo.CustomHelpers;
+@{
+    ViewBag.Title = "Szczegóły zamówienia";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (Model.OrderBaseData.OrderStatus == ShopDemo.ViewModels.OrderStatusViewModel.PaymentCancelled)
+{
+    <p class="text-danger">Płatność za zamówienie zakończyła się niepowodzeniem. Proszę dokonać płatności ponownie lub anulować zlecenie. W przypdaku braku działania, zlecenie zostanie anulowane automatycznie.</p>
+}
+else if (Model.OrderBaseData.OrderStatus == ShopDemo.ViewModels.OrderStatusViewModel.PaymentRejected)
+{
+    <p class="text-danger">Płatność za zamówienie została odrzucona. Proszę czekać na decyzję administacji sklepu.</p>
+}
+
+<div class="row">
+    <div class="col-md-6">
+        @Html.Partial("_CustomerDataPartial", Model.CustomerData)
+    </div>
+    <div class="col-md-6">
+        @Html.Partial("_CustomerAddressPartial", Model.Address)
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        @Html.Partial("_OrderPartial", Model.OrderBaseData)
+    </div>
+</div>
+<br />
+
+<div>
+    <h4>@Html.DisplayNameFor(m => m.OrderDetails)</h4>
+    <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.OrderDetails[0].ProductName)</th>
+            <th>@Html.DisplayNameFor(m => m.OrderDetails[0].ProductQuantity)</th>
+            <th>@Html.DisplayNameFor(m => m.OrderDetails[0].ProductUnitPrice)</th>
+            <th>@Html.DisplayNameFor(m => m.OrderDetails[0].Total)</th>
+        </tr>
+        @{
+            foreach (var item in Model.OrderDetails)
+            {
+                <tr>
+                    <td>
+                        @if (item.ProductId != 0)
+                        {
+                            @Html.ActionLink(item.ProductName, "ProductDetails", "Product", new { productId = item.ProductId, productName = item.ProductName.ToSeoUrl() }, new { @class = "undecorated" })
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(m => item.ProductName)
+                        }
+                    </td>
+                    <td>@Html.DisplayFor(m => item.ProductQuantity)</td>
+                    <td>@Html.DisplayFor(m => item.ProductUnitPrice)</td>
+                    <td>@Html.DisplayFor(m => item.Total)</td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+
+<div class="row">
+    <br />
+    <div class="pull-right body-content">
+        @{
+            if (Model.OrderBaseData.OrderStatus == ShopDemo.ViewModels.OrderStatusViewModel.WaitingForPayment)
+            {
+                @Html.ActionLink("Anuluj zamówienie", "CancelOrder", new { orderId = Model.OrderBaseData.OrderId }, new { @class = "btn btn-danger margin-right-5"})
+                @Html.ActionLink("Dokonaj płatności", "MakePaymentForAnExistingOrder", "Payu", new { orderId = Model.OrderBaseData.OrderId }, new { @class = "btn btn-warning" })
+            }
+            else if (Model.OrderBaseData.OrderStatus == ShopDemo.ViewModels.OrderStatusViewModel.Completed || Model.OrderBaseData.OrderStatus == ShopDemo.ViewModels.OrderStatusViewModel.CancelledByAdmin || Model.OrderBaseData.OrderStatus == ShopDemo.ViewModels.OrderStatusViewModel.CancelledByCustomer)
+            {
+                @Html.ActionLink("Usuń z listy", "RemoveOrderFromList", new { orderId = Model.OrderBaseData.OrderId }, new { @class = "btn btn-danger"})
+            }
+            else if (Model.OrderBaseData.OrderStatus == ShopDemo.ViewModels.OrderStatusViewModel.PaymentCancelled)
+            {
+                @Html.ActionLink("Dokonaj płatności", "MakePaymentForAnExistingOrder", "Payu", new { orderId = Model.OrderBaseData.OrderId }, new { @class = "btn btn-warning margin-right-5" })
+                @Html.ActionLink("Anuluj zamówienie", "CancelOrder", new { orderId = Model.OrderBaseData.OrderId }, new { @class = "btn btn-danger" })
+            }
+        }
+    </div>
+</div>

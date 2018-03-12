@@ -1,0 +1,9 @@
+﻿@{
+    ViewBag.Title = "Płatność zakończona";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>Dziękujęmy za dokonanie płatności. Proszę oczekiwać na informację odnośnie realizacji zamówienia.</h3>
+
+@Html.ActionLink("Szczegóły zamówienia", "Details", "Order", new { orderId = ViewBag.OrderId }, new { @class = "btn btn-info" })

@@ -1,0 +1,67 @@
+﻿@model IEnumerable<ShopDemo.ViewModels.BestCustomersViewModel>
+@using ShopDemo.CustomHelpers
+
+@{
+    ViewBag.Title = "Najlepsi kupujący";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row body-content">
+    <div class="pull-right">
+        <p>
+            @{
+                if (ViewBag.SelectedCount == 10)
+                {
+                    @Html.ActionLink("Top10", "BestCustomers", new { take = 10 }, new { @class = "btn btn-primary margin-right-5" })
+                    @Html.ActionLink("Top100", "BestCustomers", new { take = 100 }, new { @class = "btn btn-info" })
+                }
+                else
+                {
+                    @Html.ActionLink("Top10", "BestCustomers", new { take = 10 }, new { @class = "btn btn-info margin-right-5" })
+                    @Html.ActionLink("Top100", "BestCustomers", new { take = 100 }, new { @class = "btn btn-primary" })
+                }
+            }
+        </p>
+    </div>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserOrdersTotalPrice)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserOrdersTotalPrice)
+            </td>
+            <td>
+                @Html.ActionLink("Pokaż zamówienia", "UserOrders", "Order", new { userId = item.Id, userEmail = item.Email.ToBase64() }, new { @class = "btn btn-info" })
+            </td>
+        </tr>
+    }
+
+</table>

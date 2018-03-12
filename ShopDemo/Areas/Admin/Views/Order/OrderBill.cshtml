@@ -1,0 +1,80 @@
+﻿@model ShopDemo.ViewModels.OrderBillViewModel
+
+@{
+    Layout = null;
+    ViewBag.Title = "Rachunek";
+}
+
+<link href="~/Content/Site.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+<h2>@ViewBag.Title</h2>
+
+
+<div class="row">
+    <div class="pull-left body-content">
+        <h4>Dane kupującego</h4>
+        <dl class="dl-horizontal">
+            <dd>@Html.DisplayFor(model => model.Customer.FullName)</dd>
+            <dd>@Html.DisplayFor(model => model.Customer.Street)</dd>
+            <dd>@Html.DisplayFor(model => model.Customer.City)</dd>
+        </dl>
+    </div>
+    <div class="pull-right body-content">
+        <h4>Dane sklepu</h4>
+        <dl class="dl-horizontal">
+            <dd>@Html.DisplayFor(model => model.ShopName)</dd>
+            <dd>@Html.DisplayFor(model => model.ShopStreet)</dd>
+            <dd>@Html.DisplayFor(model => model.ShopCity)</dd>
+        </dl>
+    </div>
+</div>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.OrderId)</dt>
+        <dd>@Html.DisplayFor(model => model.OrderId)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.OrderDate)</dt>
+        <dd>@Html.DisplayFor(model => model.OrderDate)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.OrderRealizationDate)</dt>
+        <dd>@Html.DisplayFor(model => model.OrderRealizationDate)</dd>
+    </dl>
+</div>
+
+<div>
+    <h4>Kupione produkty</h4>
+    <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.OrderDetails[0].ProductName)</th>
+            <th>@Html.DisplayNameFor(m => m.OrderDetails[0].ProductQuantity)</th>
+            <th>@Html.DisplayNameFor(m => m.OrderDetails[0].ProductUnitPrice)</th>
+            <th>@Html.DisplayNameFor(m => m.OrderDetails[0].Total)</th>
+        </tr>
+        @{
+            foreach (var item in Model.OrderDetails)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(m => item.ProductName)</td>
+                    <td>@Html.DisplayFor(m => item.ProductQuantity)</td>
+                    <td>@Html.DisplayFor(m => item.ProductUnitPrice)</td>
+                    <td>@Html.DisplayFor(m => item.Total)</td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+
+<div class="row">
+    <div class="pull-left body-content">
+        <h3>@Html.DisplayNameFor(model => model.TotalAmount)</h3>
+    </div>
+    <div class="pull-right body-content">
+        <h3>@Html.DisplayFor(m => Model.TotalAmount)</h3>
+        @if(Model.PaymentOption == DataAccessLayer.Models.PaymentOptions.PaymentByTransfer)
+        {
+            <span>Zapłacono przelewem</span>
+        }
+    </div>
+</div>

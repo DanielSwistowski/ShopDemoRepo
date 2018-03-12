@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - ShopDemo</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    <link rel="icon" href="@Url.Content("~/Content/favicon.ico")" type="image/x-icon" />
+    <link rel="shortcut icon" href="@Url.Content("~/Content/favicon.ico")" type="image/x-icon" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("ShopDemo", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Strona główna", "Index", "Home")</li>
+                    <li>@Html.RouteLink("Produkty", "ProductIndex")</li>
+                    <li>@Html.ActionLink("Zamówienia", "Index", "Order")</li>
+                    <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
+                    <li>@{Html.RenderAction("ShoppingCartLink", "Cart");}</li>
+                    <li>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            @Html.ActionLink("Admin", "Index", "Home", new { area = "Admin" }, null)
+                        }
+                    </li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        <div id="alert" class="margin-top-5" style="display:none"></div>
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - ShopDemo</p>
+        </footer>
+    </div>
+
+    <input type="hidden" id="ajaxLoaderSrc" value="@Url.Content("~/Content/defaultLoader.gif")" />
+    @Scripts.Render("~/bundles/bootstrap", "~/bundles/jqueryalertmanager")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

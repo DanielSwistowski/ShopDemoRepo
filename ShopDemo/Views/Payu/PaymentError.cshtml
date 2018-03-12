@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewBag.Title = "Błąd płatności";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3 class="text-danger">Próba dokonania płatności zakończyła się niepowodzeniem. Wróć do szczegółów zamówienia i spróbuj ponownie.</h3>
+
+@Html.ActionLink("Szczegóły zamówienia", "Details", "Order", new { orderId = ViewBag.OrderId }, new { @class = "btn btn-info" })
+

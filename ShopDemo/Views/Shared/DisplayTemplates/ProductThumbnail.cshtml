@@ -1,0 +1,45 @@
+﻿@model ShopDemo.ViewModels.ProductThumbnailViewModel
+@using ShopDemo.CustomHelpers
+
+<div class="col-md-4">
+    <a href="@Url.Action("ProductDetails","Product",new { productId = Model.ProductId, productName = Model.Name.ToSeoUrl() })" class="undecorated">
+        <div class="row">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="body-content overflow-hidden">@Html.DisplayFor(m => m.Name)</h3>
+                </div>
+            </div>
+            <div class="col-md-6">
+                @{
+                    if (!string.IsNullOrEmpty(Model.PreviewThumbPath))
+                    {
+                        <img class="img-thumbnail" src="@Url.Content(Model.PreviewThumbPath)" alt="Brak zdjęcia" />
+                    }
+                    else
+                    {
+                        <img class="img-thumbnail" src="@Url.Content("~/Content/noimage.png")" alt="Brak zdjęcia" />
+                    }
+                }
+            </div>
+            <div class="col-md-6 text-right">
+                <h4 class="glyphicon glyphicon-star" style="color:orange">@Html.DisplayFor(m => m.ProductRate)</h4>
+                <br />
+                @{
+                    if (Model.NewPrice == 0)
+                    {
+                        <h4>@Html.DisplayFor(m => m.OldPrice)</h4>
+                    }
+                    else
+                    {
+                        <s style="color: red"><span>@Html.DisplayFor(m => m.OldPrice)</span></s>
+                            <br />
+                            <h4>@Html.DisplayFor(m => m.NewPrice)</h4>
+                    }
+                }
+            </div>
+        </div>
+        <p class="text-justify">
+            @Html.DisplayFor(m => m.Description)
+        </p>
+    </a>
+</div>

@@ -1,0 +1,77 @@
+﻿@model PagedList.IPagedList<ShopDemo.ViewModels.OrdersIndexViewModel>
+@using PagedList.Mvc;
+@using ShopDemo.CustomHelpers;
+
+@{
+    ViewBag.Title = "Zamówienia dla miesiąca";
+}
+
+<h2>Zamówienia zrealizowane w miesiącu: @ViewBag.MonthName/@ViewBag.Year</h2>
+
+<br />
+
+@if (Model.Count() == 0)
+{
+    <h4>Brak zamówień. Historia zamówień dla wybranego miesiąca nie jest już przechowywana.</h4>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model[0].OrderId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].OrderDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].OrderRealizationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].TotalAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].OrderStatus)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderRealizationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalAmount)
+                </td>
+                <td>
+                    @Html.GetEnumDisplayName(item.OrderStatus)
+                </td>
+                <td>
+                    @Html.ActionLink("Szczegoły", "Details", new { orderId = item.OrderId }, new { @class = "btn btn-info" })
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+<div id="paging" style="text-align:right">
+    @Html.PagedListPager(Model, strona => Url.Action("GetOrdersForSelectedMonth", new
+{
+    strona,
+    monthName = ViewBag.MonthName,
+    year = ViewBag.Year,
+}), new PagedListRenderOptions
+{
+    LinkToPreviousPageFormat = "< Poprzednia",
+    LinkToNextPageFormat = "Następna >"
+})
+</div>

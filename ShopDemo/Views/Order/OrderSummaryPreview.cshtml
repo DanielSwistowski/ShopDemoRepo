@@ -1,0 +1,97 @@
+﻿@model ShopDemo.ViewModels.OrderSummaryViewModel
+@using ShopDemo.CustomHelpers;
+
+@{
+    ViewBag.Title = "Podsumowanie";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<input type="hidden" id="error" value="@ViewBag.Error" />
+
+<h3>@Html.DisplayNameFor(model => model.Products)</h3>
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Products[0].ProductName) </th>
+        <th>@Html.DisplayNameFor(model => model.Products[0].ProductCount)</th>
+        <th>@Html.DisplayNameFor(model => model.Products[0].ProductPrice)</th>
+        <th>@Html.DisplayNameFor(model => model.Products[0].ProductTotalPrice)</th>
+    </tr>
+    @foreach (var item in Model.Products)
+    {
+        <tr>
+            <td>@Html.ActionLink(item.ProductName, "ProductDetails", "Product", new { productId = item.ProductId, productName = item.ProductName.ToSeoUrl() }, new { @class = "undecorated" })</td>
+            <td>@Html.DisplayFor(i => item.ProductCount)</td>
+            <td>@Html.DisplayFor(i => item.ProductPrice)</td>
+            <td>@Html.DisplayFor(i => item.ProductTotalPrice)</td>
+        </tr>
+    }
+</table>
+<br />
+
+
+<h3>@Html.DisplayNameFor(model => model.DeliveryOption)</h3>
+<input type="hidden" id="deliveryId" value="@Model.DeliveryOption.DeliveryId" />
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.DeliveryOption.Option)</th>
+        <th>@Html.DisplayNameFor(model => model.DeliveryOption.PaymentOption)</th>
+        <th>@Html.DisplayNameFor(model => model.DeliveryOption.RealizationTimeInDays)</th>
+        <th>@Html.DisplayNameFor(model => model.DeliveryOption.Price)</th>
+    </tr>
+
+    <tr>
+        <td>@Html.DisplayFor(o => Model.DeliveryOption.Option)</td>
+        <td>@Html.GetEnumDisplayName(Model.DeliveryOption.PaymentOption)</td>
+        <td>@Html.DisplayFor(o => Model.DeliveryOption.RealizationTimeInDays)</td>
+        <td>@Html.DisplayFor(o => Model.DeliveryOption.Price)</td>
+    </tr>
+</table>
+
+
+<div class="row">
+    <div class="pull-left body-content">
+        <h3>@Html.DisplayNameFor(model => model.TotalPrice)</h3>
+    </div>
+    <div class="pull-right body-content">
+        <h3>@Html.DisplayFor(m => Model.TotalPrice)</h3>
+    </div>
+</div>
+<br />
+<div class="row body-content" id="unCompletedOrders" data-url="@Url.Action("GetUncompletedOrders","Order")"></div>
+
+<div class="row">
+    <div class="pull-right">
+        @Html.ActionLink("Zmień sposób dostawy", "SelectDeliveryOption", "Delivery", null, new { @class = "btn btn-warning" })
+        @Html.ActionLink("Utwórz zamówienie", "CreateOrder", "Order", null, new { @class = "btn btn-success disabled", id = "btnCreateOrder" })
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        GetUncompletedOrders();
+
+        var message = $('#error').val();
+        if (message != '') {
+            alertError(message);
+            $('#error').val('');
+        }
+    });
+
+    function GetUncompletedOrders() {
+        var url = $('#unCompletedOrders').data('url');
+        var deliveryId = $('#deliveryId').val();
+        $.ajax({
+            type: 'GET',
+            url: url,
+            data: { 'deliveryId': deliveryId },
+            success: function (result) {
+                $('#unCompletedOrders').html(result);
+                $('#btnCreateOrder').removeClass('disabled');
+            },
+            error: function () {
+                alertError('Błąd! Proszę odświeżyć stronę i spróbować ponownie.');
+            }
+        });
+    }
+</script>

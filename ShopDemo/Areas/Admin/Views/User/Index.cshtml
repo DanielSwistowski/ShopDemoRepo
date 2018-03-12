@@ -1,0 +1,87 @@
+﻿@model PagedList.IPagedList<ShopDemo.ViewModels.UsersListViewModel>
+@using PagedList.Mvc;
+@using ShopDemo.CustomHelpers;
+
+@{
+    ViewBag.Title = "Użytkownicy";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p class="text-success">@ViewBag.SuccessMessage</p>
+
+<div class="row body-content">
+    @using (Html.BeginForm("Index", "User", FormMethod.Get))
+    {
+        <div class="form-inline">
+            <label class="control-label">Imię: </label>
+            @Html.TextBox("imie", @ViewBag.FirstName as string, new { @class = "form-control" })
+            <label class="control-label">Nazwisko: </label>
+            @Html.TextBox("nazwisko", @ViewBag.LastName as string, new { @class = "form-control" })
+            <label class="control-label">E-mail: </label>
+            @Html.TextBox("email", @ViewBag.Email as string, new { @class = "form-control" })
+            <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span>Szukaj</button>
+        </div>
+    }
+    <br />
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model[0].FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].EmailConfirmed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].AccountStatus)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.ActionLink(item.Email, "SendMessage", new { email = item.Email })
+            </td>
+            <td>
+                @Html.YesNoToStringPL(item.EmailConfirmed)
+            </td>
+            <td>
+                @Html.AccountStatusToStringPL(item.AccountStatus)
+            </td>
+            <td>
+                @Html.ActionLink("Szczegóły", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div id="paging" style="text-align:right">
+    @Html.PagedListPager(Model, strona => Url.Action("Index", new
+{
+    strona,
+    imie = ViewBag.FirstName,
+    nazwisko = ViewBag.LastName,
+    email = ViewBag.Email
+}), new PagedListRenderOptions
+{
+    LinkToPreviousPageFormat = "< Poprzednia",
+    LinkToNextPageFormat = "Następna >"
+})
+</div>

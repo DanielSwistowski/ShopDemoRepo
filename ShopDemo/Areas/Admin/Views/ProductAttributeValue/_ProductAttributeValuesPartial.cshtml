@@ -1,0 +1,32 @@
+﻿@model IEnumerable<ShopDemo.ViewModels.ProductAttributeValueViewModel>
+
+@if (Model.Count() > 0)
+{
+    <table class="table table-striped">
+        @foreach (var attribute in Model)
+        {
+            <tr>
+                <td class="col-md-10">
+                    @Html.DisplayFor(model => attribute.AttributeValue)
+                </td>
+                <td class="col-md-2 text-right">
+                    <button type="button" class="btnRemoveAttributeValue btn btn-sm btn-danger" data-attributevalueid="@attribute.ProductAttributeValueId" data-attributevalue="@attribute.AttributeValue" data-toggle="tooltip" title="Usuń"><span class="glyphicon glyphicon-trash"></span></button>
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>
+        Brak danych
+    </p>
+}
+
+<p class="form-inline">
+    <input id="productAttributeValue" type="text" placeholder="Dostępna wartość" class="form-control" />
+    <button type="button" id="btnAddProductAttributeValue" data-url="@Url.Action("AddProductAttributeValue", "ProductAttributeValue")" class="btn btn-success">Dodaj</button>
+    <button type="button" id="btnConfirmDeleteAttributeValue" class="btn btn-success hidden">Usuń</button>
+    <button type="button" id="btnCancelDeleteAttributeValue" class="btn btn-danger hidden">Anuluj</button>
+</p>
+

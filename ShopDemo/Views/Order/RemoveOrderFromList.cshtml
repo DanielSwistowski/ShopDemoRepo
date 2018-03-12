@@ -1,0 +1,21 @@
+﻿@model ShopDemo.ViewModels.OrdersIndexViewModel
+
+@{
+    ViewBag.Title = "Usuń zamówienie";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3 class="text-danger">Czy na pewno chcesz usunąć wybrane zamówienie z listy?</h3>
+
+@Html.Partial("_OrderPartial", Model)
+
+<div class="row body-content">
+    @using (Html.BeginForm("RemoveOrderFromList", "Order", new { orderId = Model.OrderId }, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="pull-right body-content">
+            <input type="submit" class="btn btn-danger" value="Potwierdź" />
+        </div>
+    }
+</div>

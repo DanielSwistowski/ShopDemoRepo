@@ -1,0 +1,47 @@
+﻿@model ShopDemo.ViewModels.OrderErrorViewModel
+
+@{
+    ViewBag.Title = "Błąd zamówienia";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h4 class="text-danger">@Model.OrderStatusError</h4>
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.ProductErrors[0].ProductName) </th>
+        <th>@Html.DisplayNameFor(model => model.ProductErrors[0].ProductCount)</th>
+        <th>@Html.DisplayNameFor(model => model.ProductErrors[0].ProductPrice)</th>
+        <th>@Html.DisplayNameFor(model => model.ProductErrors[0].ProductTotalPrice)</th>
+        <th>@Html.DisplayNameFor(model => model.ProductErrors[0].Error)</th>
+    </tr>
+
+    @foreach (var item in Model.ProductErrors)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductTotalPrice)
+            </td>
+            <td>
+                @if (item.Error != null)
+                {
+                    <span class="text-danger">@Html.DisplayFor(modelItem => item.Error)</span>
+                }
+                else
+                {
+                    <span>-</span>
+                }
+            </td>
+        </tr>
+    }
+</table>

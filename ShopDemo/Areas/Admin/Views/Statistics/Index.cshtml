@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "Statystyki";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<br />
+
+@Html.ActionLink("Najczęściej sprzedawane produkty", "MostSoldProducts", "Statistics", null, new { @class = "btn btn-info btn-lg btn-block" })
+@Html.ActionLink("Najlepiej oceniane produkty", "TopRatedProducts", "Statistics", null, new { @class = "btn btn-info btn-lg btn-block" })
+@Html.ActionLink("Najlepsi kupujący", "BestCustomers", "Statistics", null, new { @class = "btn btn-info btn-lg btn-block" })
+@Html.ActionLink("Największe zrealizowane zamówienia", "BestOrders", "Statistics", null, new { @class = "btn btn-info btn-lg btn-block" })
+@Html.ActionLink("Najczęściej wybierane sposoby dostawy", "BestDeliveryOptions", "Statistics", null, new { @class = "btn btn-info btn-lg btn-block" })
+@Html.ActionLink("Podsumowanie sprzedaży", "SalesSummary", "Statistics", null, new { @class = "btn btn-info btn-lg btn-block" })

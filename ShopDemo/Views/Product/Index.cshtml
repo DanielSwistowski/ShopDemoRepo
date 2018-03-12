@@ -1,0 +1,170 @@
+﻿@model PagedList.IPagedList<ShopDemo.ViewModels.CustomerProductViewModel>
+@using PagedList.Mvc;
+@using ShopDemo.CustomHelpers;
+
+@{
+    ViewBag.Title = "Produkty";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@Styles.Render("~/Content/pagecss")
+
+<form id="ajaxAntiForgeryTokenForm" action="#" method="post">@Html.AntiForgeryToken()</form>
+<div class="row">
+    <div class="body-content col-md-5">
+        @using (Html.BeginForm("Index", "Product", FormMethod.Get))
+        {
+            <div class="input-group">
+                <input id="search" type="text" value="@ViewBag.Search" class="form-control" placeholder="Znajdź produkt..." />
+                <div class="input-group-btn">
+                    <button id="btnSearch" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                </div>
+            </div>
+            <div id="searchParams"></div>
+        }
+    </div>
+</div>
+
+<input id="selectedCategoryId" type="hidden" value="@ViewBag.CategoryId" />
+<div id="previousCategories" data-url="@Url.Action("RetrivePreviousSelectedCategories","Category", new { area="Base" })" class="row margin-top-5"></div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="categories" data-url="@Url.Action("GetCategoriesMenuPartial","Category", new { area="Base" })"></div>
+                <hr />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+
+                <div id="filterByPrice">
+                    <div class="form-horizontal">
+                        <label class="control-label">Cena</label>
+                        <div class="form-group">
+                            <label class="control-label col-md-1 small">Od:</label>
+                            <div class="col-md-4">
+                                <input id="priceFrom" type="text" value="@ViewBag.PriceFrom" class="form-control input-sm" />
+                            </div>
+                            <label class="control-label col-md-1 small">Do:</label>
+                            <div class="col-md-4">
+                                <input id="priceTo" type="text" value="@ViewBag.PriceTo" class="form-control input-sm" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+
+                <div id="searchFilters" data-url="@Url.Action("GetProductSearchFiltersPartial", "SearchFilter", new { area="Base" })" data-currentselectedparameters="@ViewBag.SearchDetailParamsDictionary"></div>
+
+                <button id="btnFilterProducts" type="button" class="btn btn-primary">Filtruj</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        @if (Model.Count() > 0)
+        {
+            foreach (var product in Model)
+            {
+                @Html.HiddenFor(p => product.ProductId)
+                <div class="row-href" style="padding:5px;">
+                    <div class="row">
+                        <a href="@Url.Action("ProductDetails", new { productId = product.ProductId, productName = product.Name.ToSeoUrl() })">
+                            <div class="col-md-3">
+                                @{
+                                    if (!string.IsNullOrEmpty(product.PreviewThumbPath))
+                                    {
+                                        <img class="img-thumbnail" src="@Url.Content(product.PreviewThumbPath)" alt="Brak zdjęcia" />
+                                    }
+                                    else
+                                    {
+                                        <img class="img-thumbnail" src="@Url.Content("~/Content/noimage.png")" alt="Brak zdjęcia" />
+                                    }
+                                }
+                            </div>
+                            <div class="col-md-6">
+                                <h4>@product.Name</h4>
+                                @{
+                                    if (product.IsInPromotion)
+                                    {
+                                        <s style="color: red"><span>@Html.DisplayFor(p => product.OldPrice)</span></s>
+                                        <br />
+                                        <span style="font-size:25px">@Html.DisplayFor(p => product.NewPrice)</span>
+                                    }
+                                    else
+                                    {
+                                        <span style="font-size:25px">@Html.DisplayFor(p => product.OldPrice)</span>
+                                    }
+                                }
+                                <div class="pull-right body-content">
+                                    @if (product.IsInPromotion)
+                                    {
+                                        <span style="color:red;font-size:20px">Promocja!</span>
+                                    }
+                                </div>
+                            </div>
+                        </a>
+                        <div class="col-md-3 pull-right body-content" style="text-align:right">
+                            <div>
+                                @{
+                                    if (product.ProductRate == 0)
+                                    {
+                                        <span>Ocena: Brak oceny</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Ocena: @Html.DisplayFor(p => product.ProductRate)/5</span>
+                                    }
+                                }
+                            </div>
+                            @if (!(product.Quantity > 0))
+                            {
+                                <span style="margin-top:10px;color:red;">Produkt chwilowo niedostępny</span>
+                            }
+                            else
+                            {
+                                <span id="ajaxLoader_@product.ProductId"></span>
+                                <button type="button" data-productid="@product.ProductId" data-productcount="@product.Quantity" class="btn btn-warning addToCart" style="margin-top:10px;">Do koszyka</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="row">
+                                            <h3 style="text-align:center">Brak produktów</h3>
+                                        </div>
+                                    }
+    </div>
+    <input type="hidden" id="productCount" value="1" />
+    <input type="hidden" id="addToCartUrl" value="@Url.Action("AddToCart","Cart", new { area="" })" />
+    <input type="hidden" id="getProductCountFromCartUrl" value="@Url.Action("GetProductCount","Cart", new { area="" })" />
+</div>
+
+
+<div id="paging" style="text-align:right">
+    @Html.PagedListPager(Model, strona => Url.Action("Index", new
+{
+    strona,
+    szukaj = ViewBag.Search,
+    cena_od = ViewBag.PriceFrom,
+    cena_do = ViewBag.PriceTo,
+    categoryId = ViewBag.CategoryId,
+    categoryName = ViewBag.CategoryName,
+    filtr = ViewBag.SearchDetailParamsDictionary
+}), new PagedListRenderOptions
+{
+    LinkToPreviousPageFormat = "< Poprzednia",
+    LinkToNextPageFormat = "Następna >"
+})
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/customerProductIndex")
+}

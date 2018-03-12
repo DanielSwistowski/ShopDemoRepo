@@ -1,0 +1,79 @@
+﻿@model ShopDemo.ViewModels.AdminCancelOrder
+@using ShopDemo.CustomHelpers;
+
+@{
+    ViewBag.Title = "Anuluj zamówienie";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3 class="text-danger">Czy na pewno chcesz anulować wybrane zamówienie?</h3>
+
+@if (Model.PaymentOption == DataAccessLayer.Models.PaymentOptions.PaymentByTransfer && Model.OrderStatus == ShopDemo.ViewModels.OrderStatusViewModel.Uncompleted)
+{
+    <h4 class="text-danger">Uwaga! Anulowanie tego zamówienia spowoduje zwrot środków na konto kupującego!</h4>
+}
+
+<br />
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderStatus)
+        </dt>
+
+        <dd>
+            @Html.GetEnumDisplayName(Model.OrderStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalAmount)
+        </dd>
+    </dl>
+
+    <div class="row body-content">
+        @using (Html.BeginForm("CancelOrder", "Order", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            @Html.HiddenFor(m => m.OrderId)
+            @Html.HiddenFor(m => m.PaymentOption)
+            @Html.HiddenFor(m => m.OrderDate)
+            @Html.HiddenFor(m => m.TotalAmount)
+            @Html.HiddenFor(m => m.OrderStatus)
+
+            @Html.LabelFor(m => m.Message, new { @class = "control-label" })
+            @Html.TextAreaFor(m => m.Message, new { @class = "form-control no-resize", @rows = 8 })
+            @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+
+            <br />
+            <div class="pull-right body-content">
+                <input type="submit" class="btn btn-danger" value="Potwierdź" />
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

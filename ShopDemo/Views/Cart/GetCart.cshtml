@@ -1,0 +1,65 @@
+﻿@model ShopDemo.ViewModels.ShoppingCartViewModel
+@using ShopDemo.CustomHelpers;
+
+@{
+    ViewBag.Title = "Koszyk";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<form id="ajaxAntiForgeryTokenForm" action="#" method="post">@Html.AntiForgeryToken()</form>
+
+@{
+    if (Model.TotalItemsCount == 0)
+    {
+        <h3>Twój koszyk jest pusty</h3>
+        <a href="@ViewBag.ReferrerUrl" class="btn btn-success">Kontynuuj zakupy</a>
+    }
+    else
+    {
+        <table class="table">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.CartItems[0].ProductName) </th>
+                <th>@Html.DisplayNameFor(model => model.CartItems[0].ProductCount)</th>
+                <th>@Html.DisplayNameFor(model => model.CartItems[0].ProductPrice)</th>
+                <th>@Html.DisplayNameFor(model => model.CartItems[0].ProductTotalPrice)</th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model.CartItems)
+                {
+                <tr>
+                    <td>@Html.ActionLink(item.ProductName, "ProductDetails", "Product", new { productId = item.ProductId, productName = item.ProductName.ToSeoUrl() }, new { @class = "undecorated" })</td>
+                    <td><input type="text" class="form-control sm-control productCount" data-productid="@item.ProductId" value="@item.ProductCount" /></td>
+                    <td>@Html.DisplayFor(i => item.ProductPrice)</td>
+                    <td>@Html.DisplayFor(i => item.ProductTotalPrice)</td>
+                    <td>
+                        <button data-url="@Url.Action("RemoveProductFromCart","Cart")" data-productid="@item.ProductId" class="btn btn-danger btnRemoveProductFromCart">Usuń</button>
+                    </td>
+                </tr>
+            }
+
+            <tr>
+                <td style="font-weight:bold;">@Html.DisplayNameFor(model => model.TotalPrice)</td>
+                <td></td>
+                <td></td>
+                <td style="font-weight:bold;">@Html.DisplayFor(m => Model.TotalPrice)</td>
+                <td></td>
+            </tr>
+        </table>
+
+        <div class="row">
+            <input type="hidden" id="updateCartUrl" value="@Url.Action("UpdateProductCount","Cart")" />
+            <input type="hidden" id="getProductCountUrl" value="@Url.Action("GetProductCount","Product")" />
+            <div class="pull-right body-content">
+                <button id="btnEmptyCart" class="btn btn-danger" data-url="@Url.Action("EmptyCart","Cart")">Wyszyść koszyk</button>
+                @Html.ActionLink("Wybierz sposób dostawy", "SelectDeliveryOption", "Delivery", null, new { @class = "btn btn-warning" })
+                <a href="@ViewBag.ReferrerUrl" id="urlReferrer" class="btn btn-success">Kontynuuj zakupy</a>
+                <br />
+            </div>
+        </div>
+    }
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval", "~/bundles/cart")
+}

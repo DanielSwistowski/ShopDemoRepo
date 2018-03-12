@@ -1,0 +1,19 @@
+﻿@model IEnumerable<ShopDemo.ViewModels.LogFileDetailsViewModel>
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(m => m.Time)</th>
+        <th>@Html.DisplayNameFor(m => m.Level)</th>
+        <th>@Html.DisplayNameFor(m => m.Message)</th>
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Time</td>
+            <td>@item.Level</td>
+            <td>@item.Message</td>
+        </tr>
+    }
+</table>

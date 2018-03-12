@@ -1,0 +1,143 @@
+﻿@model ShopDemo.ViewModels.UserDetailsVewModel
+@using ShopDemo.CustomHelpers;
+<link href="~/Content/Site.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Szczegóły";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <h4>Dane użytkownika</h4>
+    <hr />
+    <dl class="dl-horizontal large-dl">
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailConfirmed)
+        </dt>
+
+        <dd>
+            @Html.YesNoToStringPL(Model.EmailConfirmed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LockoutEndDateUtc)
+        </dt>
+
+        <dd>
+            @if (Model.LockoutEndDateUtc == null)
+            {
+                if (!Model.AccountIsEnabled)
+                {
+                    @:Konto zablokowane do odwołania
+                }
+                else
+                {
+                    @:Konto nie jest zablokowane
+                }
+            }
+            else
+            {
+                @Html.DisplayFor(model => model.LockoutEndDateUtc)
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccessFailedCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccessFailedCount)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Roles)
+        </dt>
+
+        <dd>
+            @Html.NonStyledRolesList(Model.Roles)
+        </dd>
+    </dl>
+
+    <h4>Adres</h4>
+    <hr />
+
+    @if(Model.Address == null)
+    {
+        <p>Brak danych</p>
+    }
+    else
+    {
+        <dl class="dl-horizontal large-dl">
+            <dt>
+                @Html.DisplayNameFor(model => model.Address.City)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Address.City)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Address.Street)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Address.Street)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Address.HouseNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Address.HouseNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Address.ZipCode)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Address.ZipCode)
+            </dd>
+        </dl>
+    }
+    <div class="row">
+        <div class="pull-right body-content">
+            @if (!Model.AccountIsEnabled)
+            {
+                @Html.ActionLink("Odblokuj konto użytkownika", "UnlockUserAccount", new { id = Model.Id }, new { @class = "btn btn-success" })
+            }
+            else
+            {
+                @Html.ActionLink("Zablokuj konto użytkownika", "LockUserAccount", new { id = Model.Id }, new { @class = "btn btn-danger" })
+            }
+            @Html.ActionLink("Pokaż zamówienia", "UserOrders", "Order", new { userId = Model.Id, userEmail = Model.Email.ToBase64() }, new { @class = "btn btn-info" })
+            @Html.ActionLink("Wyślij wiadomość", "SendMessage", new { email = Model.Email }, new { @class = "btn btn-info" })
+        </div>
+    </div>
+</div>

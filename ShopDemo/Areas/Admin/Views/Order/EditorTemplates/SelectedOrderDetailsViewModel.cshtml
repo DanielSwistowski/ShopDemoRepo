@@ -1,0 +1,12 @@
+﻿@model ShopDemo.ViewModels.SelectedOrderDetailsViewModel
+
+<tr>
+    @Html.HiddenFor(m=>Model.OrderDetailsId)
+    <td>
+        @Html.CheckBoxFor(m => Model.Selected, new { id = Model.OrderDetailsId })
+        @Html.LabelFor(m => Model.ProductName, Model.ProductName, new { @for = Model.OrderDetailsId, @class = "normal-font-weight" })
+    </td>
+    <td>@Html.DisplayFor(m => Model.ProductQuantity)</td>
+    <td>@Html.DisplayFor(m => Model.ProductUnitPrice)</td>
+    <td>@Html.DisplayFor(m => Model.Total)</td>
+</tr>

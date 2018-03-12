@@ -1,0 +1,18 @@
+﻿@model ShopDemo.ViewModels.CategoryMenuViewModel
+@using ShopDemo.CustomHelpers;
+
+<ul class="nav nav-pills nav-stacked">
+    @{
+        foreach (var category in Model.Categories)
+        {
+            if (category.IsSelected)
+            {
+                <li class="active">@Html.ActionLink(category.Name, Model.ActionName, "Product", new { categoryId = category.CategoryId, categoryName = category.Name.ToSeoUrl(), area = Model.AreaName, filtr = category.SearchFilter }, null)</li>
+            }
+            else
+            {
+                <li>@Html.ActionLink(category.Name, Model.ActionName, "Product", new { categoryId = category.CategoryId, categoryName = category.Name.ToSeoUrl(), area = Model.AreaName, filtr = category.SearchFilter }, null)</li>
+            }
+        }
+    }
+</ul>

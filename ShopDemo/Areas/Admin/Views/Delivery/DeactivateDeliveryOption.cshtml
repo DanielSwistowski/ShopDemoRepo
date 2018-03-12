@@ -1,0 +1,67 @@
+﻿@model ShopDemo.ViewModels.CrudDeliveryViewModel
+@using ShopDemo.CustomHelpers
+
+@{
+    ViewBag.Title = "Deaktywuj sposób dostawy";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p class="text-danger">@ViewBag.ErrorMessage</p>
+
+<h3>Czy na pewno chcesz deaktywować wybrany sposób dostawy?</h3>
+<div>
+    <h4>Szczegóły</h4>
+    <hr />
+    <dl class="dl-horizontal large-dl">
+        <dt>
+            @Html.DisplayNameFor(model => model.Option)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Option)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentOption)
+        </dt>
+
+        <dd>
+            @Html.GetEnumDisplayName(Model.PaymentOption)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RealizationTimeInDays)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RealizationTimeInDays)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.YesNoToStringPL(Model.IsActive)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Deaktywuj" class="btn btn-danger" />
+        </div>
+    }
+</div>

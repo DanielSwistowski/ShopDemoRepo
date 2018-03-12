@@ -1,0 +1,72 @@
+﻿@model IEnumerable<ShopDemo.ViewModels.OrderStatisticsViewModel>
+
+@{
+    ViewBag.Title = "Największe zrealizowane zamówienia";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row body-content">
+    <div class="pull-right">
+        <p>
+            @{
+                if (ViewBag.SelectedCount == 10)
+                {
+                    @Html.ActionLink("Top10", "BestOrders", new { take = 10 }, new { @class = "btn btn-primary margin-right-5" })
+                    @Html.ActionLink("Top100", "BestOrders", new { take = 100 }, new { @class = "btn btn-info" })
+                }
+                else
+                {
+                    @Html.ActionLink("Top10", "BestOrders", new { take = 10 }, new { @class = "btn btn-info margin-right-5" })
+                    @Html.ActionLink("Top100", "BestOrders", new { take = 100 }, new { @class = "btn btn-primary" })
+                }
+            }
+        </p>
+    </div>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderRealizationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderedProductCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalAmount)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderRealizationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderedProductCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalAmount)
+            </td>
+            <td>
+                @Html.ActionLink("Szczegóły", "Details", "Order", new { orderId = item.OrderId }, new { @class = "btn btn-info" })
+            </td>
+        </tr>
+    }
+
+</table>

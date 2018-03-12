@@ -1,0 +1,55 @@
+﻿@model IEnumerable<ShopDemo.ViewModels.DeliveryOptionsViewModel>
+@using ShopDemo.CustomHelpers;
+
+@{
+    ViewBag.Title = "Wybierz sposób dostawy";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Option)</th>
+        <th>@Html.DisplayNameFor(model => model.PaymentOption)</th>
+        <th>@Html.DisplayNameFor(model => model.Price)</th>
+        <th>@Html.DisplayNameFor(model => model.RealizationTimeInDays)</th>
+    </tr>
+
+    @foreach (var option in Model)
+    {
+        <tr>
+            <td>
+                @Html.RadioButtonFor(o => option.DeliveryId, Url.Action("OrderSummaryPreview", "Order", new { deliveryId = option.DeliveryId }), new { id = "deliveryOption" + option.DeliveryId.ToString() })
+                @Html.LabelFor(o => option.Option, option.Option, new { @for = "deliveryOption" + option.DeliveryId.ToString(), @class = "normal-font-weight" })
+            </td>
+            <td>@Html.GetEnumDisplayName(option.PaymentOption)</td>
+            <td>@Html.DisplayFor(o => option.Price)</td>
+            <td>@Html.DisplayFor(o => option.RealizationTimeInDays)</td>
+        </tr>
+    }
+</table>
+
+<div class="row">
+    <div class="pull-right body-content">
+        <a href="" id="btnSummary" class="btn btn-success">Podsumowanie</a>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#btnSummary').attr('href', '');
+
+        $('input[type="radio"]').change(function () {
+            var selectedRadioVal = $('input[type="radio"]:checked').val();
+            $('#btnSummary').attr('href', selectedRadioVal);
+        });
+
+        $('#btnSummary').click(function (e) {
+            var selectedRadioVal = $('#btnSummary').attr('href');
+            if (selectedRadioVal == '') {
+                e.preventDefault();
+                alertError('Wybierz sposób dostawy!');
+            }
+        });
+    });
+</script>

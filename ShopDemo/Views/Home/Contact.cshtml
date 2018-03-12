@@ -1,0 +1,45 @@
+﻿@model ShopDemo.ViewModels.SendEmailToAdminViewModel
+
+@{
+    ViewBag.Title = "Kontakt";
+}
+<h2>@ViewBag.Title</h2>
+
+<h4>Skontaktuj się z administracją sklepu</h4>
+
+@using (Html.BeginForm("Contact", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.EmailFrom, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.EmailFrom, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.EmailFrom, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Subject, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Subject, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Message, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(m => m.Message, new { @class = "form-control no-resize", @rows = 8 })
+            @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="pull-right body-content">
+            <input type="submit" class="btn btn-success" value="Wyślij wiadomość" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

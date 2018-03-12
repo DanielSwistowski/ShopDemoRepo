@@ -1,0 +1,46 @@
+﻿@model IEnumerable<ShopDemo.ViewModels.MostPopularDeliveryOptionsViewModel>
+@using ShopDemo.CustomHelpers
+
+@{
+    ViewBag.Title = "Opcje dostawy";
+}
+
+<h2>Najczęściej wybierane sposoby dostawy</h2>
+
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Option)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentOption)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrdersCount)
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Option)
+            </td>
+            <td>
+                @Html.GetEnumDisplayName(item.PaymentOption)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrdersCount)
+        </td>
+    </tr>
+    }
+</table>

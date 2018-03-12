@@ -1,0 +1,231 @@
+﻿@model PagedList.IPagedList<ShopDemo.ViewModels.AdminIndexProductViewModel>
+@using PagedList.Mvc;
+@using ShopDemo.CustomHelpers;
+
+@{
+    ViewBag.Title = "Produkty";
+}
+
+@Styles.Render("~/Content/pagecss")
+
+<h2>@ViewBag.Title</h2>
+
+<form id="ajaxAntiForgeryTokenForm" action="#" method="post">@Html.AntiForgeryToken()</form>
+<div class="row">
+    <div class="pull-left body-content col-md-5">
+        @using (Html.BeginForm("Index", "Product", FormMethod.Get))
+        {
+            <div class="input-group">
+                <input id="search" type="text" value="@ViewBag.Search" class="form-control" placeholder="Znajdź produkt..." />
+                <div class="input-group-btn">
+                    <button id="btnSearch" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                </div>
+            </div>
+            <div id="searchParams"></div>
+        }
+    </div>
+
+    <div class="pull-right body-content">
+        <p>
+            @Html.ActionLink("Dodaj produkt", "AddProduct", null, new { @class = "btn btn-success" })
+        </p>
+    </div>
+</div>
+
+@Html.Partial("_ConfirmModalPartial")
+
+<input id="selectedCategoryId" type="hidden" value="@ViewBag.CategoryId" />
+<div id="previousCategories" data-url="@Url.Action("RetrivePreviousSelectedCategories","Category", new { area = "Base" })" class="row"></div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="categories" data-url="@Url.Action("GetCategoriesMenuPartial","Category", new { area = "Base" })"></div>
+                <hr />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+
+                <div id="filterByPrice">
+                    <div class="form-horizontal">
+                        <label class="control-label">Cena</label>
+                        <div class="form-group">
+                            <label class="control-label col-md-1 small">Od:</label>
+                            <div class="col-md-4">
+                                <input id="priceFrom" type="text" value="@ViewBag.PriceFrom" class="form-control input-sm" />
+                            </div>
+                            <label class="control-label col-md-1 small">Do:</label>
+                            <div class="col-md-4">
+                                <input id="priceTo" type="text" value="@ViewBag.PriceTo" class="form-control input-sm" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+
+                <div id="searchFilters" data-url="@Url.Action("GetProductSearchFiltersPartial", "SearchFilter", new { area="Base" })" data-currentselectedparameters="@ViewBag.SearchDetailParamsDictionary"></div>
+
+                <button id="btnFilterProducts" type="button" class="btn btn-primary">Filtruj</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <table class="table">
+            <tr>
+                <th>
+                    Zdjęcie
+                </th>
+                <th>
+                    Nazwa produktu
+                </th>
+                <th>
+                    Cena
+                </th>
+                <th>
+                    Ilość
+                </th>
+                <th>
+                    Data dodania
+                </th>
+                <th>
+                    Opcje
+                </th>
+            </tr>
+
+            @if (Model.Count() > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <tr id="@item.ProductId">
+                        <td>
+                            @if (item.PreviewThumbPath != string.Empty)
+                            {
+                                <a href="@Url.Action("ProductDetails", "Product", new { productId = item.ProductId, productName = item.Name.ToSeoUrl() })"><img class="img-thumbnail" src="@Url.Content(item.PreviewThumbPath)" /></a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("ProductDetails", "Product", new { productId = item.ProductId, productName = item.Name.ToSeoUrl() })"><img class="img-thumbnail" src="@Url.Content("~/Content/noimage.png")" /></a>
+                            }
+                        </td>
+                        <td>
+                            @if (item.IsInPromotion)
+                            {
+                                <span style="color:red">Promocja!</span>
+                                <br />
+                            }
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @if (item.IsInPromotion)
+                            {
+                                <s style="color:red"><span>@Html.DisplayFor(modelItem => item.Price)</span></s>
+                                <br />
+                                @Html.DisplayFor(modelItem => item.NewPrice)
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => item.Price)
+                            }
+
+                        </td>
+                        <td>
+                            <span id="actualProductQuantity_@item.ProductId">@Html.DisplayFor(modelItem => item.Quantity)</span><br />
+                            <button type="button" class="btn btn-success btn-xs btnActualizeProductQuantity" data-productid="@item.ProductId" data-productname="@item.Name" data-toggle="tooltip" title="Aktualizuj ilość produktu"><span class="glyphicon glyphicon-plus"></span></button>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedAt)
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">
+                                    Opcje
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Edytuj", "EditProduct", new { productId = item.ProductId }, null)</li>
+                                    <li><a href="@Url.Action("DeleteProductFromOffer", "Product", new { productId = item.ProductId })" class="btnDeleteProductFromOffer" data-item="@item.Name">Wycofaj ze sprzedaży</a></li>
+                                    @if (item.IsInPromotion)
+                                    {
+                                        <li>@Html.ActionLink("Edytuj ustawienia promocji", "EditProductDiscount", "ProductDiscount", new { productId = item.ProductId }, null)</li>
+                                    }
+                                    else
+                                    {
+                                        <li>@Html.ActionLink("Nowa promocja", "Add", "ProductDiscount", new { productId = item.ProductId }, null)</li>
+                                    }
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td><h3>Brak produktów</h3></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<div id="paging" style="text-align:right">
+    @Html.PagedListPager(Model, strona => Url.Action("Index", new
+{
+    strona,
+    szukaj = ViewBag.Search,
+    cena_od = ViewBag.PriceFrom,
+    cena_do = ViewBag.PriceTo,
+    categoryId = ViewBag.CategoryId,
+    categoryName = ViewBag.CategoryName,
+    filtr = ViewBag.SearchDetailParamsDictionary
+}), new PagedListRenderOptions
+{
+    LinkToPreviousPageFormat = "< Poprzednia",
+    LinkToNextPageFormat = "Następna >"
+})
+</div>
+
+<input type="hidden" id="actualizeProductQuantityUrl" value="@Url.Action("ActualizeProductQuantity","Product")" />
+
+<div class="modal fade" id="updateProductQuantityModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Aktualizacja ilości produktu</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="modalProductId" value="" />
+                <div style="padding-bottom:20px;">
+                    <span>Produkt:</span>&nbsp;<span style="font-size:20px;" id="modalProductName"></span>
+                </div>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-6">Ile szt. produktu chcesz dodać?</label>
+                        <div class="col-md-6">
+                            <input type="number" id="modalProductQuantity" class="form-control sm-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span id="modalErrorMessage" class="text-danger"></span>
+                <span id="updateProductQuantityLoader" style="display:none"><img src="@Url.Content("~/Content/defaultLoader.gif")" alt="Zapisywanie" /></span>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
+                <button type="button" class="btn btn-success" id="modalConfirmActualizeBtn" data-targetUrl="" data-callbackFunction="">Aktualizuj</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval", "~/bundles/productIndex")
+}

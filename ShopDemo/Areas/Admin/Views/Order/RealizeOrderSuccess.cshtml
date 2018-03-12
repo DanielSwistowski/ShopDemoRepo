@@ -1,0 +1,10 @@
+﻿
+@{
+    ViewBag.Title = "Zamówienie zrealizowane";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h4>Zamówienie nr @ViewBag.OrderId zostało zrealizowane.</h4>
+
+@Html.ActionLink("Drukuj rachunek", "PrintBill", new { orderId = @ViewBag.OrderId }, new { @class = "btn btn-info" })

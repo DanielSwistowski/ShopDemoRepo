@@ -1,0 +1,147 @@
+﻿@model ShopDemo.ViewModels.AddProductDiscountViewModel
+
+@{
+    ViewBag.Title = "Nowa promocja";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.BasicProductDataViewModel.Name)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.BasicProductDataViewModel.Name)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.BasicProductDataViewModel.Description)
+    </dt>
+
+    <dd>
+        @Html.Raw(Model.BasicProductDataViewModel.Description.Replace(Environment.NewLine, "<br />"))
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.BasicProductDataViewModel.Price)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.BasicProductDataViewModel.Price)
+    </dd>
+    <dt>
+        <span>Cena promocyjna</span>
+    </dt>
+    <dd>
+        <span id="newProductPrice" style="color:red;font-weight:bold">Proszę podać wysokość rabatu</span>
+    </dd>
+</dl>
+<br />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Warunki promocji</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.BasicProductDataViewModel.ProductId)
+        <div class="form-group">
+            @Html.LabelFor(model => model.DiscountQuantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DiscountQuantity, new { htmlAttributes = new { @class = "form-control sm-control" } })
+                @Html.ValidationMessageFor(model => model.DiscountQuantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DiscountStartTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="input-group md-control date" id="datetimepicker1">
+                    @Html.EditorFor(model => model.DiscountStartTime, new { htmlAttributes = new { @class = "form-control" } })
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </div>
+                </div>
+                @Html.ValidationMessageFor(model => model.DiscountStartTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DiscountEndTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="input-group md-control date" id="datetimepicker2">
+                    @Html.EditorFor(model => model.DiscountEndTime, new { htmlAttributes = new { @class = "form-control" } })
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </div>
+                </div>
+                @Html.ValidationMessageFor(model => model.DiscountEndTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Zapisz" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/moment", "~/bundles/datetimepicker", "~/bundles/jqueryval")
+}
+
+@section Styles{
+    @Styles.Render("~/Content/datetimepickercss");
+}
+    
+    
+
+<script>
+    $(document).ready(function () {
+        $.validator.methods.date = function (value, element) {
+            return this.optional(element) || moment(value, 'DD.MM.YYYY HH:mm').isValid();
+        }
+
+        $('#datetimepicker1').datetimepicker({
+            locale: 'pl'
+        });
+        $('#datetimepicker2').datetimepicker({
+            useCurrent: false,
+            locale: 'pl'
+        });
+        $("#datetimepicker1").on("dp.change", function (e) {
+            $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
+        });
+        $("#datetimepicker2").on("dp.change", function (e) {
+            $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
+        });
+
+        $('#DiscountQuantity').blur(function () {
+            var productId = $('#BasicProductDataViewModel_ProductId').val();
+            var discountQuantity = $('#DiscountQuantity').val();
+            if (discountQuantity > 0 && discountQuantity < 100) {
+                GetNewProductPrice(productId, discountQuantity);
+            }
+        });
+    });
+
+    function GetNewProductPrice(productId, discountQuantity) {
+        $.ajax({
+            url: '@Url.Action("GetNewProductPrice","ProductDiscount")',
+            type: 'GET',
+            data: { 'productId': productId, 'discountQuantity': discountQuantity },
+            success: function (result) {
+                if (result.success == false) {
+                    AlertError(result.message);
+                } else {
+                    $('#newProductPrice').css('color', 'green');
+                    $('#newProductPrice').html(result.price + ' zł');
+                }
+            },
+            error: function(){
+                AlertError('Nie można pobrać nowej ceny produktu! Proszę odświeżyć stronę.');
+            }
+        });
+    }
+</script>

@@ -1,0 +1,54 @@
+﻿@model ShopDemo.ViewModels.AdminOrderViewModel
+
+@{
+    ViewBag.Title = "Zamówienia";
+}
+
+<script src="~/Scripts/jquery-3.2.1.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+<h2>@ViewBag.Title</h2>
+
+<p class="text-danger">@ViewBag.Message</p>
+
+<div class="row">
+    @using (Ajax.BeginForm("GetAllOrders", new AjaxOptions
+    {
+        UpdateTargetId = "orders",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId = "loader",
+        HttpMethod = "GET",
+        OnFailure = "error"
+    }))
+    {
+        <div class="form-inline body-content">
+            <div class="input-group pull-left col-md-5">
+                @Html.TextBox("orderId", @ViewBag.Search as string, new { @class = "form-control", @placeholder = "Numer zamówienia" })
+                <div class="input-group-btn">
+                    <button id="btnSearchByOrderId" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                </div>
+            </div>
+            <div class="pull-right">
+                @Html.DisplayNameFor(m => m.OrderStatus)
+                @Html.EnumDropDownListFor(m => Model.OrderStatus, new { @class = "form-control", onchange = "btnSearchByOrderId.click();" })
+            </div>
+            <br />
+        </div>
+    }
+</div>
+<br />
+
+<div id="loader" style="display:none">
+    <img src="@Url.Content("~/Content/defaultLoader.gif")" alt="Wczytywanie..." />
+</div>
+<div id="orders"></div>
+
+<script>
+    $(document).ready(function () {
+        $('#btnSearchByOrderId').click();
+    });
+
+    function error() {
+        $('#orders').html('Błąd! Nie można pobrać danych. Proszę spróbować ponownie.');
+    }
+</script>

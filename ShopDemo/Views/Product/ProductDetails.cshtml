@@ -1,0 +1,171 @@
+﻿@model ShopDemo.ViewModels.CustomerProductDetailsViewModel
+@using ShopDemo.CustomHelpers;
+
+@{
+    ViewBag.Title = Model.Name;
+}
+
+<h3>@ViewBag.Title</h3>
+
+<div>
+    @Html.HiddenFor(model => model.ProductId)
+    <form id="ajaxAntiForgeryTokenForm" action="#" method="post">@Html.AntiForgeryToken()</form>
+    <hr />
+
+    <div class="row body-content">
+        <div class="pull-right form-inline">
+            <span id="ajaxLoader"></span>
+            <label class="control-label">Ilość</label>
+            <input id="productCount" type="text" style="width:50px;" class="form-control" value="1" />
+            <label id="productQuantity" class="control-label" data-quantity="@Model.Quantity"><span>z </span>@Model.Quantity</label>
+            @{
+                if (Model.Quantity > 0)
+                {
+                    <button id="btnAddToCart" class="btn btn-warning" type="button">Do koszyka</button>
+                }
+                else
+                {
+                    <button id="btnAddToCart" disabled="disabled" class="btn btn-warning disabled" type="button">Do koszyka</button>
+                }
+            }
+            
+        </div>
+        @{
+            if (Model.IsInPromotion)
+            {
+                <h3 id="onPromotion" class="pull-left" style="color:red;font-style:italic">Promocja!<br /></h3>
+            }
+        }
+    </div>
+    <br />
+    
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductCategories)
+        </dt>
+        <dd>
+            <ul class="list-inline">
+                <li>@Html.ActionLink("Produkty", "Index", "Product")</li>
+                @foreach (var category in Model.ProductCategories)
+                {
+                    <li><a href="@Url.Action("Index","Product",new { categoryId = category.CategoryId, categoryName = category.Name.ToSeoUrl()})"><span>&raquo;</span>@category.Name</a></li>
+                }
+            </ul>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductGallery)
+        </dt>
+
+        <dd>
+            @if (Model.ProductGallery.Count == 0)
+            {
+                @("Brak zdjęć w galerii")
+            }
+            else
+            {
+                for (int i = 0; i < Model.ProductGallery.Count; i++)
+                {
+                    <a class="fancybox" rel="group" href="@Url.Content(Model.ProductGallery[i].PhotoPath)"><img class="img-thumbnail" src="@Url.Content(Model.ProductGallery[i].PhotoThumbPath)" alt="Zdjęcie niedostępne" /></a>
+                }
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OldPrice)
+        </dt>
+
+        <dd>
+            @{
+                if (Model.IsInPromotion)
+                {
+                    <s style="color: red"><span>@Html.DisplayFor(p => Model.OldPrice)</span></s><br />
+                    @Html.DisplayFor(p => Model.NewPrice)
+                }
+                else
+                {
+                    @Html.DisplayFor(p => Model.OldPrice)
+                }
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Description.Replace(Environment.NewLine, "<br />"))
+        </dd>
+    </dl>
+    <br />
+    <h4>Specyfikacja techniczna</h4>
+    <hr />
+    @{
+        if (Model.ProductDetails.Count != 0)
+        {
+            <dl class="dl-horizontal large-dl">
+                @{
+                    foreach (var item in Model.ProductDetails)
+                    {
+                        <dt>
+                            @Html.DisplayFor(model => item.DetailName)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => item.DetailValue)
+                        </dd>
+                    }
+                }
+            </dl>
+                    }
+                    else
+                    {
+                        <p>Brak danych</p>
+                    }
+    }
+</div>
+
+<hr>
+<br />
+<div id="comments" class="body-content" data-url="@Url.Action("GetAllProductComments", "ProductRate")">
+    <h4>Opinie o produkcie</h4>
+    <img src="@Url.Content("~/Content/defaultLoader.gif")" alt="Wczytywanie..." />
+</div>
+<br />
+<button id="btnAddComment" class="btn btn-info">Dodaj opinię o produkcie</button>
+<div id="commentForm" class="form-horizontal margin-top-5" hidden="hidden">
+    <div class="form-group">
+        <label class="control-label col-md-1">Ocena</label>
+        <div class="col-md-4" onmouseout="highlightSelectedRate()" style="cursor:pointer">
+            <input id="rateValue" type="hidden" value="0" />
+            <h1 id="star1" class="glyphicon glyphicon-star" onclick="selectRate(1)" onmouseover="highlightStar(1)" onmouseout="UnHighlightStar(1)"></h1>
+            <h1 id="star2" class="glyphicon glyphicon-star" onclick="selectRate(2)" onmouseover="highlightStar(2)" onmouseout="UnHighlightStar(2)"></h1>
+            <h1 id="star3" class="glyphicon glyphicon-star" onclick="selectRate(3)" onmouseover="highlightStar(3)" onmouseout="UnHighlightStar(3)"></h1>
+            <h1 id="star4" class="glyphicon glyphicon-star" onclick="selectRate(4)" onmouseover="highlightStar(4)" onmouseout="UnHighlightStar(4)"></h1>
+            <h1 id="star5" class="glyphicon glyphicon-star" onclick="selectRate(5)" onmouseover="highlightStar(5)" onmouseout="UnHighlightStar(5)"></h1>
+            <span id="selectRateErrorMessage" hidden="hidden" style="color:red">* Wybierz ocenę</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-1">Twój nick</label>
+        <div class="col-md-4">
+            <input id="nickName" type="text" data-url="@Url.Action("NickNameIsAvailableForCurrentProduct", "ProductRate")" class="form-control" onblur="checkNickName()" />
+            <span id="nickUnavailableError" hidden="hidden" style="color:red">* Nazwa zajęta</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-1">Opinia</label>
+        <div class="col-md-11">
+            <textarea id="comment" type="text" class="form-control no-resize multi-line"></textarea>
+        </div>
+    </div>
+    <button id="btnSendOpinion" data-url="@Url.Action("AddComment", "ProductRate")" type="submit" class="btn btn-success">Wyślij</button>
+</div>
+<span id="message"></span>
+
+<input type="hidden" id="addToCartUrl" value="@Url.Action("AddToCart","Cart", new { area="" })" />
+<input type="hidden" id="getProductCountFromCartUrl" value="@Url.Action("GetProductCount","Cart", new { area="" })" />
+
+@section Scripts {
+    @Scripts.Render("~/bundles/fancyboxjs", "~/bundles/customerProductDetails")
+    @Styles.Render("~/Content/fancyboxcss")
+}

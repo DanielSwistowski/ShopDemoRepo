@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "Podsumowanie sprzedaży";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<script src="~/Scripts/jquery-3.2.1.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+<p class="text-danger"></p>
+
+<div class="row">
+    @using (Ajax.BeginForm("GetSalesSummary", new AjaxOptions
+    {
+        UpdateTargetId = "salesSummary",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId = "loader",
+        HttpMethod = "GET",
+        OnFailure = "error"
+    }))
+    {
+        <div class="form-inline body-content">
+            <div class="pull-right">
+                <span>Wybierz rok</span>
+                @Html.DropDownList("year", ViewBag.Years as IEnumerable<SelectListItem>, new { @class = "form-control", onchange = "$(this.form).submit();" })
+            </div>
+            <br />
+        </div>
+    }
+</div>
+<br />
+
+<div id="loader" style="display:none">
+    <img src="@Url.Content("~/Content/defaultLoader.gif")" alt="Wczytywanie..." />
+</div>
+
+<div id="salesSummary"></div>
+
+<script>
+    $(document).ready(function () {
+        $('#form0').submit();
+    });
+
+    function error() {
+        $('#salesSummary').html('<span class="text-danger">Błąd! Nie można pobrać danych. Proszę spróbować ponownie.</span>');
+    }
+</script>

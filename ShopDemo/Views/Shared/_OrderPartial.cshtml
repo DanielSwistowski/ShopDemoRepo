@@ -1,0 +1,23 @@
+﻿@model ShopDemo.ViewModels.OrdersIndexViewModel
+    @using ShopDemo.CustomHelpers;
+
+<h4>Zamówienie</h4>
+<dl class="dl-horizontal large-dl">
+    <dt>@Html.DisplayNameFor(model => model.OrderId)</dt>
+    <dd>@Html.DisplayFor(model => model.OrderId)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.OrderDate)</dt>
+    <dd>@Html.DisplayFor(model => model.OrderDate)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.OrderStatus)</dt>
+    <dd>@Html.GetEnumDisplayName(Model.OrderStatus)</dd>
+
+    <dt>@Html.DisplayNameFor(model => model.TotalAmount)</dt>
+    <dd>@Html.DisplayFor(model => model.TotalAmount)</dd>
+
+    @if (Model.OrderRealizationDate != null)
+    {
+        <dt>@Html.DisplayNameFor(model => model.OrderRealizationDate)</dt>
+        <dd>@Html.DisplayFor(model => model.OrderRealizationDate)</dd>
+    }
+</dl>

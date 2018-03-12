@@ -1,0 +1,2 @@
+{ "time": "2018-02-21 02:31:01.9618", "level": "WARN", "message": "Failed to process the job '134': an exception occurred. Retry attempt 1 of 10 will be performed in 00:00:29.," },
+{ "time": "2018-02-21 02:31:38.2035", "level": "WARN", "message": "Failed to process the job '134': an exception occurred. Retry attempt 2 of 10 will be performed in 00:00:50.," },

@@ -1,0 +1,112 @@
+﻿@model ShopDemo.ViewModels.RealizeOrderViewModel
+@{
+    ViewBag.Title = "Realizacja zamówienia";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        @Html.Partial("_OrderPartial", Model.OrderBaseData)
+    </div>
+    <div class="col-md-6">
+        @Html.Partial("_DeliveryPartial", Model.Delivery)
+    </div>
+</div>
+
+<br />
+
+<div>
+    @using (Html.BeginForm("RealizeOrder", "Order", FormMethod.Post,new { id="orderForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => Model.OrderBaseData.OrderId)
+        <h4>@Html.DisplayNameFor(m => m.OrderDetails)</h4>
+        <table id="checkboxTable" class="table">
+            <tr>
+                <th>@Html.DisplayNameFor(m => m.OrderDetails[0].ProductName)</th>
+                <th>@Html.DisplayNameFor(m => m.OrderDetails[0].ProductQuantity)</th>
+                <th>@Html.DisplayNameFor(m => m.OrderDetails[0].ProductUnitPrice)</th>
+                <th>@Html.DisplayNameFor(m => m.OrderDetails[0].Total)</th>
+            </tr>
+            @Html.EditorFor(m => Model.OrderDetails)
+        </table>
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="row">
+            <div class="pull-right body-content">
+                <input type="submit" id="btnSubmit" class="btn btn-success" value="Potwierdź realizację" />
+            </div>
+        </div>
+    }
+</div>
+
+<input type="hidden" id="orderId" value="@Model.OrderBaseData.OrderId" />
+<input type="hidden" id="enableOrderToRealizationUrl" value="@Url.Action("EnableOrderToRealization", "Order")" />
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script>
+    $(document).ready(function () {
+        $('#btnSubmit').click(function (e) {
+            if (!validateCheckboxes()) {
+                e.preventDefault();
+                alertError('Aby ukończyć realizację zamówienia zaznacz wszystkie zamówione produkty.');
+                return;
+            }
+        })
+
+        var shouldEnableOrder = true;
+        var url = $('#enableOrderToRealizationUrl').val();
+        var orderId = $('#orderId').val();
+
+        window.onunload = function () {
+            if (shouldEnableOrder) {
+                $.when(enableOrderToRealization(url, orderId)).done(function () {
+                    shouldEnableOrder = false;
+                    return;
+                });
+            }
+            return;
+        }
+
+        window.onbeforeunload = function () {
+            if (shouldEnableOrder) {
+                $.when(enableOrderToRealization(url, orderId)).done(function () {
+                    shouldEnableOrder = false;
+                    return;
+                });
+            }
+            return;
+        }
+    });
+
+    function validateCheckboxes() {
+        var isValid = true;
+        $('#checkboxTable input[type=checkbox]').each(function () {
+            if (!$(this).is(":checked")) {
+                isValid = false;
+                return false;
+            }
+        });
+        return isValid;
+    }
+
+    function enableOrderToRealization(url, orderId) {
+        return $.ajax({
+            type: "POST",
+            url: url,
+            headers: { '__RequestVerificationToken': getAntiForgeryToken() },
+            data: { 'orderId': orderId },
+            success: function (result) {
+                return result;
+            }
+        });
+    }
+
+    function getAntiForgeryToken() {
+        var token = $('#orderForm input[name=__RequestVerificationToken]').val();
+        return token;
+    }
+</script>

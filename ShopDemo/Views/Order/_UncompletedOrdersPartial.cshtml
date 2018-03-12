@@ -1,0 +1,32 @@
+﻿@model IEnumerable<ShopDemo.ViewModels.UncompleteOrdersViewModel>
+@using ShopDemo.CustomHelpers;
+
+<h3>Nieukończone zamówienia</h3>
+
+<h5>Posiadasz nieukończone zamówienia. Możesz połączyć swoje nowe zamówienie z którymś z istniejących zamówień.</h5>
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.OrderId)</th>
+        <th>@Html.DisplayNameFor(model => model.OrderDate)</th>
+        <th>@Html.DisplayNameFor(model => model.OrderStatus)</th>
+        <th>@Html.DisplayNameFor(model => model.TotalAmount)</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(model => item.OrderId)</td>
+            <td>@Html.DisplayFor(model => item.OrderDate)</td>
+            <td>@Html.GetEnumDisplayName(item.OrderStatus)</td>
+            <td>@Html.DisplayFor(model => item.TotalAmount)</td>
+            <td>
+                <div class="pull-right">
+                    @Html.ActionLink("Szczegóły", "Details", new { orderId = item.OrderId }, new { @class = "btn btn-info", target = "_blank" })
+                    @Html.ActionLink("Połącz zamówienia", "UpdateOrderSummaryPreview", new { orderId = item.OrderId, deliveryId = item.DeliveryId }, new { @class = "btn btn-success" })
+                </div>
+            </td>
+        </tr>
+    }
+</table>
+<br />

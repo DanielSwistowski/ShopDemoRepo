@@ -1,0 +1,37 @@
+﻿@model IEnumerable<ShopDemo.ViewModels.SalesSummaryViewModel>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MonthName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Year)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Summary)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MonthName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Summary)
+            </td>
+            <td>
+                @Html.ActionLink("Pokaż zamówienia", "GetOrdersForSelectedMonth", "Order", new { monthName = item.MonthName, year = item.Year }, new { @class = "btn btn-info" })
+                @Html.ActionLink("Najlepsze produkty", "MostSoldProducts", "Statistics", new { take = 10, monthName = item.MonthName, year = item.Year }, new { @class = "btn btn-info" })
+            </td>
+        </tr>
+    }
+
+</table>

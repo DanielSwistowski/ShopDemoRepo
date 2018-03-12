@@ -1,0 +1,193 @@
+﻿
+@{
+    ViewBag.Title = "Opis";
+}
+
+<h2>Opis panelu administracyjnego aplikacji</h2>
+
+
+<p class="alert alert-danger">
+    Uwaga! Wszystkie wiadomości e-mail przechwytywane są przez <a href="https://mailtrap.io">Mailtrap.io</a>. Wyjątkiem są wiadomości wysyłane przez PayU,
+    dlatego test zakupów z płatnością przelewem sugeruję robić z <strong>konta użytkownika</strong> podanego niżej.
+</p>
+
+<div class="alert alert-info">
+    <h5>Konto administratora</h5>
+    <dl class="dl-horizontal">
+        <dt>Login:</dt>
+        <dd>admin@shopdemo.com.pl</dd>
+        <dt>Hasło:</dt>
+        <dd>haslo_1234</dd>
+    </dl>
+
+    <h5>Konto użytkownika (jest także loginem do skrzynki pocztowej gmail oraz serwisu <a href="https://mailtrap.io">Mailtrap.io</a>)</h5>
+    <dl class="dl-horizontal">
+        <dt>Login:</dt>
+        <dd>shopdemo.test@gmail.com</dd>
+        <dt>Hasło:</dt>
+        <dd>haslo_1234</dd>
+    </dl>
+</div>
+
+<h3>Produkty</h3>
+<dl>
+    <dt>Aktualna oferta</dt>
+    <dd>
+        <ul>
+            <li>Dodawanie nowych produktów</li>
+            <li>Opcje --> Edytuj - Edycja produktu</li>
+            <li>Opcje --> Wycofaj ze sprzedaży - Wycofanie produktu ze sprzedaży</li>
+            <li>Opcje --> Nowa promocja - utworzenie nowej promocji</li>
+            <li><button type="button" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-plus"></span></button> - Aktualizacja ilości produktu w sklepie</li>
+        </ul>
+    </dd>
+    <dt>Promocje</dt>
+    <dd>
+        <ul>
+            <li>Opcje --> Szczegóły promocji</li>
+            <li>Opcje --> Edytuj ustawienia promocji - Zmiana czasu trwania promocji oraz wysokości rabatu</li>
+            <li>Opcje --> Usuń - anulowanie promocji</li>
+        </ul>
+    </dd>
+    <dt>Wycofane ze sprzedarzy</dt>
+    <dd>
+        <ul>
+            <li>Opcje --> Przywróć do sprzedaży - przywrócenie produktu do oferty sklepu</li>
+            <li>Opcje --> Usuń - Całkowite usunięcie produktu ze sklepu</li>
+        </ul>
+    </dd>
+    <dt>Szczegóły produktu (po kliknięciu w wybrany produkt)</dt>
+    <dd>
+        <ul>
+            <li>Edytuj - edycja produktu</li>
+            <li>Historia zamówień - historia zamówień wybranego produktu</li>
+            <li>Opinie o produkcie - możliwość usuwania komentarzy o produkcie</li>
+        </ul>
+    </dd>
+</dl>
+<br />
+
+<h3>Użytkownicy</h3>
+<ul>
+    <li>Kliknięcie w adres e-mail użytkownika - możliwość wysłania wiadomości do użytkownika</li>
+</ul>
+<dl>
+    <dt>Szczegóły</dt>
+    <dd>
+        <ul>
+            <li>Zablokuj konto użytkownia - blokada konta</li>
+            <li>Pokaż zamówienia - wyświetlenie wszystkich zamówień dokonanych przez użytkownika</li>
+            <li>Wyślij wiadomość - możliwość wysłania wiadomości do użytkownika</li>
+        </ul>
+    </dd>
+</dl>
+<br />
+
+<h4>Zamówienia</h4>
+<span>Po kliknięciu w szczegóły można dla zamówień o statusie:</span>
+<dl>
+    <dt>Niezrealizowane</dt>
+    <dd>
+        <ul>
+            <li>Dokonać realizacji zamówienia</li>
+            <li>Anulować zamówienie</li>
+        </ul>
+    </dd>
+    <dt>Oczekiwanie na płatność</dt>
+    <dd>
+        <ul>
+            <li>Anulować zamówienie</li>
+        </ul>
+    </dd>
+    <dt>Zakończone</dt>
+    <dd>
+        <ul>
+            <li>Wyświetlić rachunek (PDF) za wybrane zamówienie</li>
+        </ul>
+    </dd>
+    <dt>Płatność odrzucona</dt>
+    <dd>
+        <ul>
+            <li>Zaakceptować płatność odrzuconą przez system PayU</li>
+        </ul>
+    </dd>
+</dl>
+<br />
+
+<h4>Statystyki</h4>
+<dl>
+    <dt>Najczęściej sprzedawane produkty</dt>
+    <dd>
+        <ul>
+            <li>Historia zamówień - historia zamówień wybranego produktu</li>
+        </ul>
+    </dd>
+    <dt>Najlepiej oceniane produkty</dt>
+    <dt>Najlepsi kupujący</dt>
+    <dd>
+        <ul>
+            <li>Pokaż zamówienia - wszystkie zamówienia wybranego kupującego</li>
+        </ul>
+    </dd>
+    <dt>Największe zrealizowane zamówienia</dt>
+    <dt>Najczęściej wybierane sposoby dostawy</dt>
+    <dt>Podsumowanie sprzedaży</dt>
+    <dd>
+        <ul>
+            <li>Pokaż zamówienia - wszystkie zrealizowane zamówienia w wybranym miesiącu</li>
+            <li>Najlepsze produkty - najczęściej sprzedawane produkty w wybranym miesiącu</li>
+        </ul>
+    </dd>
+</dl>
+<br />
+
+<h4>Opcje</h4>
+<dl>
+    <dt>Kategorie</dt>
+    <dd>
+        <ul>
+            <li>Dodawanie nowych kategorii</li>
+            <li><button type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></button> - Usunięcie wybranej kategorii</li>
+            <li><button type="button" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-edit"></span></button> - Edycja nazwy kategorii</li>
+            <li>
+                <button type="button" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-info-sign"></span></button> - Ustawienia
+                <ul>
+                    <li>Dodawanie nowych cech produktu lub przenoszenie istniejących z poprzedniej kategorii</li>
+                    <li>
+                        Definiowanie wartości dla wybranych cech produktu - jeśli wybrana cecha produktu posiada zdefiniowane wartości, to przy dodawaniu nowego produktu, w części dotyczącej specyfikacji technicznej 
+                        dostępne wartości cechy produktu wyświetlają się jako drop down list
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <button type="button" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-filter"></span></button> - Ustawianie filtrów wyszukiwania - filtry wyszukiwania można utworzyć dla cech produktu, 
+                które posiadają zdefiniowane wartości. Filtry wyszukiwania generują się na stronie z produktami jako checkboxy z wartościami wybranej cechy i umożliwiają wyszukiwanie produktów na podstawie
+                zaznaczonych wartości (parametrów dotyczących specyfikacji technicznej produktu).
+            </li>
+        </ul>
+    </dd>
+
+    <dt>Dostawy</dt>
+    <dd>
+        <ul>
+            <li>
+                Przedstawiają sposoby realizacji zamówienia. Umożliwiają tworzenie nowych lub usuwanie istniejąch opcji. Można także zablokować (przycisk Deaktywuj) lub odblokować (przycisk Aktywuj) wybraną opcję.
+                Opcje które są zablokowane nie wyświetlą się na stronie, na której użytkownik wybiera sposób dostawy swojego zamówienia.
+            </li>
+        </ul>
+    </dd>
+
+    <dt>Log</dt>
+    <dd>
+        <ul>
+            <li>Przeglądnie plików log aplikacji oraz ich usuwanie</li>
+        </ul>
+    </dd>
+
+    <dt>Hangfire</dt>
+    <dd>
+        <ul>
+            <li>Panel zarządzania narzędzia Hangfire</li>
+        </ul>
+    </dd>
+</dl>

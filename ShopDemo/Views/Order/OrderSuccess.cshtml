@@ -1,0 +1,9 @@
+﻿@{
+    ViewBag.Title = "Zamówienie utworzone";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>Dziękujęmy za utworzenie nowego zamówienia. Proszę oczekiwać na informację o przesyłce.</h3>
+
+@Html.ActionLink("Szczegóły zamówienia", "Details", "Order", new { orderId = ViewBag.OrderId }, new { @class = "btn btn-info" })

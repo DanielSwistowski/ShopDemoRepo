@@ -1,0 +1,65 @@
+﻿@model IEnumerable<ShopDemo.ViewModels.AdminDeliveryOptionsViewModel>
+@using ShopDemo.CustomHelpers
+
+@{
+    ViewBag.Title = "Sposoby realizacji zamówienia";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Dodaj nowy", "AddNewDelivery",null,new { @class="btn btn-success" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Option)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentOption)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RealizationTimeInDays)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Option)
+            </td>
+            <td>
+                @Html.GetEnumDisplayName(item.PaymentOption)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RealizationTimeInDays)
+            </td>
+            <td>
+                @Html.YesNoToStringPL(item.IsActive)
+            </td>
+            <td>
+                @if (item.IsActive)
+                {
+                    @Html.ActionLink("Deaktywuj", "DeactivateDeliveryOption", new { deliveryId = item.DeliveryId }, new { @class = "btn btn-warning" })
+                }
+                else
+                {
+                    @Html.ActionLink("Aktywuj", "ActivateDeliveryOption", new { deliveryId = item.DeliveryId }, new { @class = "btn btn-success" })
+                }
+                @Html.ActionLink("Usuń", "DeleteDelivery", new { deliveryId = item.DeliveryId }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+    }
+
+</table>

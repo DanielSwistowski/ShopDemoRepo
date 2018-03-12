@@ -1,0 +1,112 @@
+﻿@model ShopDemo.ViewModels.IndexViewModel
+@using ShopDemo.CustomHelpers;
+
+@{
+    ViewBag.Title = "Ustawienia";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    <h4>Hasło</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Hasło</dt>
+        <dd>
+            [
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink("Zmień hasło", "ChangePassword")
+            }
+            ]
+        </dd>
+    </dl>
+
+    <br />
+    <h4>Dane osobowe</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonalData.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PersonalData.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonalData.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PersonalData.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonalData.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PersonalData.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonalData.Roles)
+        </dt>
+
+        <dd>
+            @Html.NonStyledRolesList(Model.PersonalData.Roles)
+        </dd>
+        <dt></dt>
+        <dd>[@Html.ActionLink("Edytuj dane osobowe", "EditPersonalData")]</dd>
+    </dl>
+
+    <br />
+    <h4>Adres</h4>
+    <hr />
+
+    @if (Model.Address == null)
+    {
+        <p>Brak danych</p>
+        <p>[@Html.ActionLink("Edytuj adres", "EditAddress")]</p>
+    }
+    else
+    {
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Address.City)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Address.City)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Address.Street)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Address.Street)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Address.HouseNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Address.HouseNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Address.ZipCode)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Address.ZipCode)
+            </dd>
+            <dt></dt>
+            <dd>[@Html.ActionLink("Edytuj adres", "EditAddress")]</dd>
+        </dl>
+    }
+</div>

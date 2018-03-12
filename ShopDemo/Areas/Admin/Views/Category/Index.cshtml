@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewBag.Title = "Kategorie";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<form id="ajaxAntiForgeryTokenForm" action="#" method="post">@Html.AntiForgeryToken()</form>
+
+<div id="categories" data-url="@Url.Action("GetCategoriesJson", "Category")">
+    <div class="row" id="row_1">
+        <div id="column_1" class="col-md-4"><img src="@Url.Content("~/Content/defaultLoader.gif")" alt="Wczytywanie..." /></div>
+    </div>
+</div>
+
+<div id="productAttributesModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Ustawienia</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Cechy produktu z kategorii nadrzędnej</h4>
+                <div id="parentAttributes" data-url="@Url.Action("GetParentCategoryProductAttributesDistinct", "ProductAttribute")">Proszę czekać...</div>
+                <hr />
+                <h4>Cechy produktu z aktualnej kategorii</h4>
+                <div id="attributes" data-url="@Url.Action("GetProductAttributes","ProductAttribute")">Proszę czekać...</div>
+                <p id="productAttributeModalMessage" style="color:red"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="attributeValuesModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Ustawienia dostępnych wartości</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Wartości cechy produktu z nadrzędnej kategorii</h4>
+                <div id="parentAttributeValues" data-url="@Url.Action("GetParentProductAttributeValuesDistinct", "ProductAttributeValue")">Proszę czekać...</div>
+                <hr />
+                <h4>Dostępne wartości dla danej cechy produktu</h4>
+                <div id="availableValues" data-url="@Url.Action("GetProductAttributeValues", "ProductAttributeValue")">Proszę czekać...</div>
+                <p id="productAttributeValueModalMessage" style="color:red"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="searchFiltersModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Filtry wyszukiwania</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Aktualnie ustawione filtry wyszukiwania</h4>
+                <div id="availableFilters" data-url="@Url.Action("GetSearchFilters", "SearchFilter")">Proszę czekać...</div>
+                <p id="searchFiltersModalMessage" style="color:red"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_ConfirmModalPartial")
+
+<input type="hidden" id="addCategoryUrl" value="@Url.Action("AddCategory","Category")" />
+<input type="hidden" id="editCategoryUrl" value="@Url.Action("EditCategory", "Category")" />
+<input type="hidden" id="deleteCategoryUrl" value="@Url.Action("DeleteCategory", "Category")" />
+<input type="hidden" id="removeProductAttributeUrl" value="@Url.Action("RemoveProductAttribute", "ProductAttribute")" />
+<input type="hidden" id="removeProductAttributeValueUrl" value="@Url.Action("RemoveProductAttributeValue", "ProductAttributeValue")" />
+<input type="hidden" id="removeSearchFilterUrl" value="@Url.Action("DeleteSearchFilter", "SearchFilter")" />
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval", "~/bundles/categoryIndex")
+}

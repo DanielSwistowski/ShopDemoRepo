@@ -1,0 +1,56 @@
+﻿@model ShopDemo.ViewModels.UserOrdersListViewModel
+@using ShopDemo.CustomHelpers
+
+
+<h4><small><i>Status:</i>&nbsp;</small>@Html.GetEnumDisplayName(Model.OrderStatus)</h4>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserOrders[0].OrderId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserOrders[0].OrderDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserOrders[0].OrderRealizationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserOrders[0].TotalAmount)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.UserOrders)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDate)
+            </td>
+            @{
+                if (item.OrderRealizationDate != null)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderRealizationDate)
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <span>-</span>
+                    </td>
+                }
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalAmount)
+            </td>
+            <td>
+                @Html.ActionLink("Szczegóły", "Details", "Order", new { orderId = item.OrderId }, new { @class = "btn btn-info" })
+            </td>
+        </tr>
+    }
+</table>
+<br />

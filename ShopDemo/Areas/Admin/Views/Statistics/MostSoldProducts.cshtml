@@ -1,0 +1,83 @@
+﻿@model IEnumerable<ShopDemo.ViewModels.ProductSaleStatisticsViewModel>
+@using ShopDemo.CustomHelpers
+
+@{
+    ViewBag.Title = "Najczęściej sprzedawane produkty";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@{ 
+    if (ViewBag.MonthName != null && ViewBag.Year != null)
+    {
+        <h3>Dla miesiąca: @ViewBag.MonthName/@ViewBag.Year</h3>
+    }
+}
+
+@{
+    if (Model.Count() == 0)
+    {
+        <br />
+        <h4>Brak danych</h4>
+    }
+    else
+    {
+        <div class="row body-content">
+            <div class="pull-right">
+                <p>
+                    @{
+                        if (ViewBag.SelectedCount == 10)
+                        {
+                            @Html.ActionLink("Top10", "MostSoldProducts", new { take = 10, monthName = ViewBag.MonthName, year = ViewBag.Year }, new { @class = "btn btn-primary margin-right-5" })
+                            @Html.ActionLink("Top100", "MostSoldProducts", new { take = 100, monthName = ViewBag.MonthName, year = ViewBag.Year }, new { @class = "btn btn-info" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Top10", "MostSoldProducts", new { take = 10, monthName = ViewBag.MonthName, year = ViewBag.Year }, new { @class = "btn btn-info margin-right-5" })
+                            @Html.ActionLink("Top100", "MostSoldProducts", new { take = 100, monthName = ViewBag.MonthName, year = ViewBag.Year }, new { @class = "btn btn-primary" })
+                        }
+                    }
+                </p>
+            </div>
+        </div>
+
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SaleQuantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AverageProductUnitPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Total)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(item.ProductName, "ProductDetails", "Product", new { productId = item.ProductId, productName = item.ProductName.ToSeoUrl() }, new { @class = "undecorated" })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SaleQuantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AverageProductUnitPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Total)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Historia zamówień", "ProductOrderHistory", new { productId = item.ProductId, productName = item.ProductName.ToSeoUrl() }, new { @class = "btn btn-info" })
+                    </td>
+                </tr>
+            }
+        </table>
+                        }
+}

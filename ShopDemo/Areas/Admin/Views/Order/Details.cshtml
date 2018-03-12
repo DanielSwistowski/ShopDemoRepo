@@ -1,0 +1,90 @@
+﻿@model ShopDemo.ViewModels.OrderDetailViewModel
+@using ShopDemo.CustomHelpers;
+@{
+    ViewBag.Title = "Szczegóły zamówienia";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p class="text-danger">@ViewBag.ErrorMessage</p>
+<p class="text-success">@ViewBag.SuccessMessage</p>
+
+<div class="row">
+    <div class="col-md-6">
+        @Html.Partial("_CustomerDataPartial", Model.CustomerData)
+    </div>
+    <div class="col-md-6">
+        @Html.Partial("_CustomerAddressPartial",Model.Address)
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        @Html.Partial("_OrderPartial", Model.OrderBaseData)
+    </div>
+</div>
+
+<br />
+<div>
+    <h4>@Html.DisplayNameFor(m => m.OrderDetails)</h4>
+    <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.OrderDetails[0].ProductName)</th>
+            <th>@Html.DisplayNameFor(m => m.OrderDetails[0].ProductQuantity)</th>
+            <th>@Html.DisplayNameFor(m => m.OrderDetails[0].ProductUnitPrice)</th>
+            <th>@Html.DisplayNameFor(m => m.OrderDetails[0].Total)</th>
+        </tr>
+        @{
+            foreach (var item in Model.OrderDetails)
+            {
+                <tr>
+                    <td>
+                        @if (item.ProductId != 0)
+                        {
+                            @Html.ActionLink(item.ProductName, "ProductDetails", "Product", new { productId = item.ProductId, productName = item.ProductName.ToSeoUrl() }, new { @class = "undecorated" })
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(m => item.ProductName)
+                        }
+                    </td>
+                    <td>@Html.DisplayFor(m => item.ProductQuantity)</td>
+                    <td>@Html.DisplayFor(m => item.ProductUnitPrice)</td>
+                    <td>@Html.DisplayFor(m => item.Total)</td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+
+<div class="row">
+    <br />
+    <div class="pull-right body-content">
+        @{
+            if (Model.OrderBaseData.OrderStatus == ShopDemo.ViewModels.OrderStatusViewModel.Uncompleted)
+            {
+                if (Model.CustomerData.AccountStatus == false)
+                {
+                    <p class="text-danger" style="text-align:right">Ukończenie zamówienia jest niemożliwe, ponieważ konto użytkownika zostało zablokowane.</p>
+                }
+                else
+                {
+                    @Html.ActionLink("Realizuj zamówienie", "RealizeOrder", new { orderId = Model.OrderBaseData.OrderId }, new { @class = "btn btn-warning pull-right" })
+                }
+                @Html.ActionLink("Anuluj zamówienie", "CancelOrder", new { orderId = Model.OrderBaseData.OrderId }, new { @class = "btn btn-danger pull-right margin-right-5" })
+            }
+            else if (Model.OrderBaseData.OrderStatus == ShopDemo.ViewModels.OrderStatusViewModel.WaitingForPayment)
+            {
+                @Html.ActionLink("Anuluj zamówienie", "CancelOrder", new { orderId = Model.OrderBaseData.OrderId }, new { @class = "btn btn-danger" })
+            }
+            else if (Model.OrderBaseData.OrderStatus == ShopDemo.ViewModels.OrderStatusViewModel.Completed)
+            {
+                @Html.ActionLink("Rachunek", "PrintBill", new { orderId = Model.OrderBaseData.OrderId }, new { @class="btn btn-info" })
+            }
+            else if (Model.OrderBaseData.OrderStatus == ShopDemo.ViewModels.OrderStatusViewModel.PaymentRejected)
+            {
+                @Html.ActionLink("Zaakceptuj płatność", "AcceptPayment","Payu", new { orderId = Model.OrderBaseData.OrderId }, new { @class = "btn btn-info" })
+            }
+        }
+    </div>
+</div>

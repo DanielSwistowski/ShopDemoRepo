@@ -1,0 +1,49 @@
+﻿@model ShopDemo.ViewModels.SearchFilterListAndAddFilterViewModel
+    @using ShopDemo.CustomHelpers
+
+@if (@Model.SearchFiltersList.Count() > 0)
+{
+    <table class="table table-striped">
+        @foreach (var filter in @Model.SearchFiltersList)
+        {
+            @Html.HiddenFor(model => filter.ProductAttributeId)
+
+            <tr>
+                <td class="col-md-5">
+                    @Html.DisplayFor(model => filter.Attribute)
+                </td>
+                <td class="col-md-5">
+                    @Html.GetEnumDisplayName(filter.FilterType)
+                </td>
+                <td class="col-md-2 text-right">
+                    <button type="button" class="btnRemoveFilter btn btn-sm btn-danger" data-filterid="@filter.ProductAttributeId" data-filterattribute="@filter.Attribute" data-toggle="tooltip" title="Usuń"><span class="glyphicon glyphicon-trash"></span></button>
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>
+        Brak danych
+    </p>
+}
+<br />
+<hr />
+
+<div class="container-fluid">
+    <div class="form-group col-md-5">
+        <label class="control-label">Cecha produktu</label>
+        @Html.DropDownListFor(model => model.AddSearchFilterModel.ProductAttributeId, Model.AddSearchFilterModel.AttributesList, "Wybierz...", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group col-md-5">
+        <label class="control-label">Rodzaj filtra</label>
+        @Html.EnumDropDownListFor(model => model.AddSearchFilterModel.FilterType, "Wybierz...", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group col-md-2">
+        <label class="control-label">&nbsp;</label>
+        <button type="button" id="btnAddFilter" data-url="@Url.Action("AddSearchFilter", "SearchFilter")" class="btn btn-success">Dodaj</button>
+    </div>
+</div>

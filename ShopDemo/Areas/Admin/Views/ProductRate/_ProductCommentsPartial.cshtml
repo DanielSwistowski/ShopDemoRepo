@@ -1,0 +1,28 @@
+﻿@model ShopDemo.ViewModels.ProductRateListViewModel
+
+<div class="row">
+    <div class="pull-left body-content">
+        <h4>Opinie o produkcie</h4>
+    </div>
+    <div class="pull-right body-content">
+        <span>Ocena produktu: @Html.DisplayFor(model => Model.TotalRate)/5</span>
+    </div>
+</div>
+
+@{
+    foreach (var comment in Model.Comments)
+    {
+        <div class="media">
+            <div class="media-left">
+                <img src="~/Content/comment-icon.png" class="media-object" style="width:60px">
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">@comment.NickName <small><i>@Html.DisplayFor(c=> comment.CreatedAt)</i></small><span class="pull-right"><small><i>Ocenia produkt na:</i></small> @comment.Rate</span></h4>
+                <p id="comment_@comment.ProductRateId">@comment.Comment</p>
+            </div>
+            <div class="media-right">
+                <button class="btn btn-danger btnDeleteComment" data-url="@Url.Action("DeleteComment", "ProductRate")" data-commentid="@comment.ProductRateId">Usuń komentarz</button>
+            </div>
+        </div>
+    }
+}

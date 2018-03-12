@@ -1,0 +1,15 @@
+﻿@model IEnumerable<ShopDemo.ViewModels.CategoryDropDownViewModel>
+@using ShopDemo.CustomHelpers;
+
+<ul class="list-inline body-content">
+    <li>@Html.ActionLink("Produkty", @ViewBag.TargetActionName as string, "Product", new { categoryId = "", area = @ViewBag.AreaName as string }, null)</li>
+        @{
+            if (Model != null)
+            {
+                foreach (var category in Model)
+                {
+                <li><a href="@Url.Action(@ViewBag.TargetActionName as string, "Product", new { categoryId = category.CategoryId, categoryName = category.Name.ToSeoUrl(), area = @ViewBag.AreaName as string })"><span>&raquo;</span>@category.Name</a></li>
+                    }
+                }
+            }
+</ul>

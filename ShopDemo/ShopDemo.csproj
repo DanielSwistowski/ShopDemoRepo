@@ -1,0 +1,789 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.3.2\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.3.2\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B55E81DE-811F-43E4-BBF3-5B83567C91A2}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ShopDemo</RootNamespace>
+    <AssemblyName>ShopDemo</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort>44341</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>2.7</TypeScriptToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Hangfire.Core, Version=1.6.17.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.Core.1.6.17\lib\net45\Hangfire.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Hangfire.Dashboard.Authorization, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.Dashboard.Authorization.2.1.0\lib\net45\Hangfire.Dashboard.Authorization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Hangfire.Ninject, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.Ninject.1.2.0\lib\net45\Hangfire.Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Hangfire.SqlServer, Version=1.6.17.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.SqlServer.1.6.17\lib\net45\Hangfire.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.0.0\lib\net451\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.0.0\lib\net451\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.0.0\lib\net451\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.4.0.0\lib\net451\Microsoft.Owin.Security.Cookies.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.4.0.0\lib\net451\Microsoft.Owin.Security.Facebook.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.4.0.0\lib\net451\Microsoft.Owin.Security.Google.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.4.0.0\lib\net451\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.4.0.0\lib\net451\Microsoft.Owin.Security.OAuth.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.4.0.0\lib\net451\Microsoft.Owin.Security.Twitter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.Common, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.Common.3.3.0\lib\net45\Ninject.Web.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.Common.OwinHost, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.Common.OwinHost.3.3.0\lib\net45\Ninject.Web.Common.OwinHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.Common.WebHost, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.Common.WebHost.3.3.0\lib\net45\Ninject.Web.Common.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.MVC5.3.3.0\lib\net45\Ninject.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.4.13\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Postal, Version=1.0.0.0, Culture=neutral, PublicKeyToken=45719375b8b4d528, processorArchitecture=MSIL">
+      <HintPath>..\packages\Postal.Mvc5.1.2.0\lib\net45\Postal.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RazorEngine, Version=3.10.0.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <HintPath>..\packages\RazorEngine.3.10.0\lib\net45\RazorEngine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Rotativa.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.Core.2.0.2.1\lib\net45\Rotativa.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Rotativa.MVC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.MVC.2.0.3\lib\net45\Rotativa.MVC.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.DynamicData">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Entity">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.ApplicationServices">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.4\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.4\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Abstractions">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Routing">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Configuration">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Services">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.EnterpriseServices">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\HangfireJobsInitializer.cs" />
+    <Compile Include="App_Start\NinjectWebCommon.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DeliveryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ErrorController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LogController.cs" />
+    <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PayuController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PhotoController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProductAttributeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProductAttributeValueController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProductDiscountController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProductRateController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SearchFilterController.cs" />
+    <Compile Include="Areas\Admin\Controllers\StatisticsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UserController.cs" />
+    <Compile Include="Areas\Admin\HangfireJobs.cs" />
+    <Compile Include="Areas\Base\BaseAreaRegistration.cs" />
+    <Compile Include="Areas\Base\Controllers\CategoryController.cs" />
+    <Compile Include="Areas\Base\Controllers\SearchFilterController.cs" />
+    <Compile Include="Areas\RouteConfig.cs" />
+    <Compile Include="AutoMapperProfiles\CategoryProfile.cs" />
+    <Compile Include="AutoMapperProfiles\DeliveryProfile.cs" />
+    <Compile Include="AutoMapperProfiles\OrderDetailProfile.cs" />
+    <Compile Include="AutoMapperProfiles\OrderProfile.cs" />
+    <Compile Include="AutoMapperProfiles\PayuProfile.cs" />
+    <Compile Include="AutoMapperProfiles\PhotoProfile.cs" />
+    <Compile Include="AutoMapperProfiles\ProductAttributeProfile.cs" />
+    <Compile Include="AutoMapperProfiles\ProductAttributeValueProfile.cs" />
+    <Compile Include="AutoMapperProfiles\ProductDetailProfile.cs" />
+    <Compile Include="AutoMapperProfiles\ProductDiscountProfile.cs" />
+    <Compile Include="AutoMapperProfiles\ProductProfile.cs" />
+    <Compile Include="AutoMapperProfiles\ProductRateProfile.cs" />
+    <Compile Include="AutoMapperProfiles\SearchFilterProfile.cs" />
+    <Compile Include="AutoMapperProfiles\ShoppingCartProfile.cs" />
+    <Compile Include="AutoMapperProfiles\StatisticsProfile.cs" />
+    <Compile Include="AutoMapperProfiles\UserProfile.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\DeliveryController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\PayuController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ProductRateController.cs" />
+    <Compile Include="CustomFilters\CustomHangfireAuthorizationFilter.cs" />
+    <Compile Include="CustomHelpers\DateHelper.cs" />
+    <Compile Include="CustomHelpers\DictionaryHelper.cs" />
+    <Compile Include="CustomHelpers\HtmlHelpers.cs" />
+    <Compile Include="CustomHelpers\SearchStringHelper.cs" />
+    <Compile Include="CustomHelpers\EncodeStringHelpers.cs" />
+    <Compile Include="CustomHelpers\UrlHelper.cs" />
+    <Compile Include="CustomModelBinders\DateTimeModelBinder.cs" />
+    <Compile Include="CustomValidationAttributes\CannotContainsEmptyElementsAttribute.cs" />
+    <Compile Include="CustomValidationAttributes\CannotContainSpecialCharactersAttribute.cs" />
+    <Compile Include="CustomValidationAttributes\MustBeTrueAttribute.cs" />
+    <Compile Include="CustomValidationAttributes\ValidateAntiForgeryTokenForAjaxPostAttribute.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="CustomModelBinders\DecimalModelBinder.cs" />
+    <Compile Include="ViewModels\AccountViewModels.cs" />
+    <Compile Include="ViewModels\DeliveryOptionsViewModel.cs" />
+    <Compile Include="ViewModels\HomeViewModels.cs" />
+    <Compile Include="ViewModels\LogViewModels.cs" />
+    <Compile Include="ViewModels\ManageViewModels.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\CategoryViewModel.cs" />
+    <Compile Include="ViewModels\EmailViewModel.cs" />
+    <Compile Include="ViewModels\OrderDetailsViewModel.cs" />
+    <Compile Include="ViewModels\OrderViewModels.cs" />
+    <Compile Include="ViewModels\PhotoViewModel.cs" />
+    <Compile Include="ViewModels\ProductAttributeValueViewModel.cs" />
+    <Compile Include="ViewModels\ProductAttributeViewModel.cs" />
+    <Compile Include="ViewModels\ProductDetailViewModel.cs" />
+    <Compile Include="ViewModels\ProductDiscountViewModel.cs" />
+    <Compile Include="ViewModels\ProductRateViewModel.cs" />
+    <Compile Include="ViewModels\ProductViewModels.cs" />
+    <Compile Include="ViewModels\SearchFilterViewModel.cs" />
+    <Compile Include="ViewModels\ShoppingCartViewModels.cs" />
+    <Compile Include="ViewModels\StatisticsViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Scripts\Category\categoryIndex.js" />
+    <Content Include="Areas\Admin\Scripts\Product\addOrEditProduct.js" />
+    <Content Include="Areas\Admin\Scripts\Product\addProduct.js" />
+    <Content Include="Areas\Admin\Scripts\Product\productDetails.js" />
+    <Content Include="Areas\Base\Scripts\categoriesMenu.js" />
+    <Content Include="Areas\Admin\Scripts\Product\editProduct.js" />
+    <Content Include="Areas\Admin\Scripts\Product\productDeletedFromOffer.js" />
+    <Content Include="Areas\Admin\Scripts\Product\productIndex.js" />
+    <Content Include="Areas\Admin\Scripts\Product\productsOnPromotion.js" />
+    <Content Include="Areas\Base\Scripts\searchFilters.js" />
+    <Content Include="Content\bootstrap-datetimepicker.css" />
+    <Content Include="Content\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\favicon.ico" />
+    <Content Include="Content\fancybox\blank.gif" />
+    <Content Include="Content\fancybox\fancybox_buttons.png" />
+    <Content Include="Content\fancybox\fancybox_loading%402x.gif" />
+    <Content Include="Content\fancybox\fancybox_loading.gif" />
+    <Content Include="Content\fancybox\fancybox_overlay.png" />
+    <Content Include="Content\fancybox\fancybox_sprite%402x.png" />
+    <Content Include="Content\fancybox\fancybox_sprite.png" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\jquery.fancybox-buttons.css" />
+    <Content Include="Content\jquery.fancybox-thumbs.css" />
+    <Content Include="Content\jquery.fancybox.css" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\AddProduct.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\EditProduct.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\ProductsDeletedFromOffer.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\ProductDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductRate\_ProductCommentsNotExistsPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductRate\_ProductCommentsPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\Product\ProductsOnPromotion.cshtml" />
+    <Content Include="Areas\Admin\Views\Category\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductAttribute\_ProductAttributesPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductAttribute\_ParentCategoryProductAttributesPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductAttributeValue\_ProductAttributeValuesPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\SearchFilter\_ProductSearchFiltersManagementPartial.cshtml" />
+    <Content Include="Content\_bootstrap-datetimepicker.less" />
+    <Content Include="Content\bootstrap-datetimepicker-build.less" />
+    <Content Include="Areas\Admin\Views\ProductDiscount\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductDiscount\EditProductDiscount.cshtml" />
+    <Content Include="Areas\Base\Views\Category\_CategoriesMenuPartial.cshtml" />
+    <Content Include="Areas\Base\Views\SearchFilter\_ProductSearchFiltersPartial.cshtml" />
+    <Content Include="Areas\Base\Views\Category\_PreviousSelectedCategoriesPartial.cshtml" />
+    <Content Include="Areas\Base\Views\web.config" />
+    <Content Include="Rotativa\help-wkhtmltoimage.txt" />
+    <Content Include="Rotativa\help-wkhtmltopdf.txt" />
+    <Content Include="Rotativa\wkhtmltoimage.exe" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\CustomScripts\alertsManager.js" />
+    <Content Include="Scripts\CustomScripts\Cart\cartShared.js" />
+    <Content Include="Scripts\CustomScripts\DecimalValidation.js" />
+    <Content Include="Scripts\CustomScripts\Cart\cart.js" />
+    <Content Include="Scripts\CustomScripts\Product\productDetails.js" />
+    <Content Include="Scripts\CustomScripts\Product\productIndex.js" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap\wells.less" />
+    <Content Include="Content\bootstrap\variables.less" />
+    <Content Include="Content\bootstrap\utilities.less" />
+    <Content Include="Content\bootstrap\type.less" />
+    <Content Include="Content\bootstrap\tooltip.less" />
+    <Content Include="Content\bootstrap\thumbnails.less" />
+    <Content Include="Content\bootstrap\theme.less" />
+    <Content Include="Content\bootstrap\tables.less" />
+    <Content Include="Content\bootstrap\scaffolding.less" />
+    <Content Include="Content\bootstrap\responsive-utilities.less" />
+    <Content Include="Content\bootstrap\responsive-embed.less" />
+    <Content Include="Content\bootstrap\progress-bars.less" />
+    <Content Include="Content\bootstrap\print.less" />
+    <Content Include="Content\bootstrap\popovers.less" />
+    <Content Include="Content\bootstrap\panels.less" />
+    <Content Include="Content\bootstrap\pagination.less" />
+    <Content Include="Content\bootstrap\pager.less" />
+    <Content Include="Content\bootstrap\normalize.less" />
+    <Content Include="Content\bootstrap\navs.less" />
+    <Content Include="Content\bootstrap\navbar.less" />
+    <Content Include="Content\bootstrap\modals.less" />
+    <Content Include="Content\bootstrap\mixins\vendor-prefixes.less" />
+    <Content Include="Content\bootstrap\mixins\text-overflow.less" />
+    <Content Include="Content\bootstrap\mixins\text-emphasis.less" />
+    <Content Include="Content\bootstrap\mixins\table-row.less" />
+    <Content Include="Content\bootstrap\mixins\tab-focus.less" />
+    <Content Include="Content\bootstrap\mixins\size.less" />
+    <Content Include="Content\bootstrap\mixins\responsive-visibility.less" />
+    <Content Include="Content\bootstrap\mixins\resize.less" />
+    <Content Include="Content\bootstrap\mixins\reset-text.less" />
+    <Content Include="Content\bootstrap\mixins\reset-filter.less" />
+    <Content Include="Content\bootstrap\mixins\progress-bar.less" />
+    <Content Include="Content\bootstrap\mixins\panels.less" />
+    <Content Include="Content\bootstrap\mixins\pagination.less" />
+    <Content Include="Content\bootstrap\mixins\opacity.less" />
+    <Content Include="Content\bootstrap\mixins\nav-vertical-align.less" />
+    <Content Include="Content\bootstrap\mixins\nav-divider.less" />
+    <Content Include="Content\bootstrap\mixins\list-group.less" />
+    <Content Include="Content\bootstrap\mixins\labels.less" />
+    <Content Include="Content\bootstrap\mixins\image.less" />
+    <Content Include="Content\bootstrap\mixins\hide-text.less" />
+    <Content Include="Content\bootstrap\mixins\grid.less" />
+    <Content Include="Content\bootstrap\mixins\grid-framework.less" />
+    <Content Include="Content\bootstrap\mixins\gradients.less" />
+    <Content Include="Content\bootstrap\mixins\forms.less" />
+    <Content Include="Content\bootstrap\mixins\clearfix.less" />
+    <Content Include="Content\bootstrap\mixins\center-block.less" />
+    <Content Include="Content\bootstrap\mixins\buttons.less" />
+    <Content Include="Content\bootstrap\mixins\border-radius.less" />
+    <Content Include="Content\bootstrap\mixins\background-variant.less" />
+    <Content Include="Content\bootstrap\mixins\alerts.less" />
+    <Content Include="Content\bootstrap\mixins.less" />
+    <Content Include="Content\bootstrap\media.less" />
+    <Content Include="Content\bootstrap\list-group.less" />
+    <Content Include="Content\bootstrap\labels.less" />
+    <Content Include="Content\bootstrap\jumbotron.less" />
+    <Content Include="Content\bootstrap\input-groups.less" />
+    <Content Include="Content\bootstrap\grid.less" />
+    <Content Include="Content\bootstrap\glyphicons.less" />
+    <Content Include="Content\bootstrap\forms.less" />
+    <Content Include="Content\bootstrap\dropdowns.less" />
+    <Content Include="Content\bootstrap\component-animations.less" />
+    <Content Include="Content\bootstrap\code.less" />
+    <Content Include="Content\bootstrap\close.less" />
+    <Content Include="Content\bootstrap\carousel.less" />
+    <Content Include="Content\bootstrap\buttons.less" />
+    <Content Include="Content\bootstrap\button-groups.less" />
+    <Content Include="Content\bootstrap\breadcrumbs.less" />
+    <Content Include="Content\bootstrap\bootstrap.less" />
+    <Content Include="Content\bootstrap\badges.less" />
+    <Content Include="Content\bootstrap\alerts.less" />
+    <Content Include="Areas\Admin\Views\User\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\User\SendMessage.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\User\LockUserAccount.cshtml" />
+    <Content Include="Areas\Admin\Views\User\UnlockUserAccount.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\_OrdersListPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\Details.cshtml" />
+    <Content Include="Areas\Base\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Base\Views\Shared\_Layout.cshtml" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Scripts\esm\popper-utils.js" />
+    <Content Include="Scripts\esm\popper-utils.min.js" />
+    <Content Include="Scripts\esm\popper.js" />
+    <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\esm\popper.min.js.map" />
+    <Content Include="Scripts\esm\popper.js.map" />
+    <Content Include="Scripts\esm\popper-utils.min.js.map" />
+    <Content Include="Scripts\esm\popper-utils.js.map" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\popper-utils.js" />
+    <Content Include="Scripts\popper-utils.min.js" />
+    <Content Include="Scripts\popper.js" />
+    <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\umd\popper-utils.js" />
+    <Content Include="Scripts\umd\popper-utils.min.js" />
+    <Content Include="Scripts\umd\popper.js" />
+    <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Views\Shared\_CustomerDataPartial.cshtml" />
+    <Content Include="Views\Shared\_CustomerAddressPartial.cshtml" />
+    <Content Include="Views\Shared\_OrderPartial.cshtml" />
+    <Content Include="Views\Shared\_DeliveryPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\RealizeOrder.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\EditorTemplates\SelectedOrderDetailsViewModel.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductDiscount\Details.cshtml" />
+    <Content Include="App_Browsers\qt.browser" />
+    <Content Include="Areas\Admin\Views\Order\RealizeOrderSuccess.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductAttributeValue\_ParentProductAttributeValuesPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_AdminLoginPartial.cshtml" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Error\NotFound.cshtml" />
+    <Content Include="Areas\Admin\Views\Error\BadRequest.cshtml" />
+    <Content Include="Areas\Admin\Views\Error\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\CancelOrder.cshtml" />
+    <Content Include="Areas\Admin\Views\Delivery\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Delivery\AddNewDelivery.cshtml" />
+    <Content Include="Areas\Admin\Views\Delivery\DeleteDelivery.cshtml" />
+    <Content Include="Areas\Admin\Views\Delivery\DeactivateDeliveryOption.cshtml" />
+    <Content Include="Areas\Admin\Views\Delivery\ActivateDeliveryOption.cshtml" />
+    <Content Include="Areas\Admin\Views\Payu\AcceptPayment.cshtml" />
+    <Content Include="Areas\Admin\Views\Log\_LogFilePartial.cshtml" />
+    <Content Include="Areas\Admin\Views\Log\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Statistics\MostSoldProducts.cshtml" />
+    <Content Include="Areas\Admin\Views\Statistics\BestOrders.cshtml" />
+    <Content Include="Areas\Admin\Views\Statistics\ProductOrderHistory.cshtml" />
+    <Content Include="Areas\Admin\Views\Statistics\BestCustomers.cshtml" />
+    <Content Include="Areas\Admin\Views\Statistics\BestDeliveryOptions.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\UserOrders.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\UserOrdersList.cshtml" />
+    <Content Include="Areas\Admin\Views\Statistics\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Statistics\SalesSummary.cshtml" />
+    <Content Include="Areas\Admin\Views\Statistics\_SalesSummaryPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\GetOrdersForSelectedMonth.cshtml" />
+    <Content Include="Areas\Admin\Views\Statistics\TopRatedProducts.cshtml" />
+    <Content Include="Areas\Admin\Views\Error\Forbidden.cshtml" />
+    <None Include="Properties\PublishProfiles\ShopDemoWebPublishProfile.pubxml" />
+    <Content Include="Scripts\jquery.fancybox-buttons.js" />
+    <Content Include="Scripts\jquery.fancybox-media.js" />
+    <Content Include="Scripts\jquery.fancybox-thumbs.js" />
+    <Content Include="Scripts\jquery.fancybox.js" />
+    <Content Include="Scripts\jquery.fancybox.pack.js" />
+    <Content Include="Scripts\jquery.mousewheel-3.0.6.pack.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.matchmedia.addListener.js" />
+    <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_ConfirmModalPartial.cshtml" />
+    <Content Include="Views\Shared\_AlertModalPartial.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Product\ProductDetails.cshtml" />
+    <Content Include="Views\ProductRate\_ProductCommentsPartial.cshtml" />
+    <Content Include="Views\ProductRate\_ProductCommentsNotExistsPartial.cshtml" />
+    <Content Include="Views\Cart\_CartLinkPartial.cshtml" />
+    <Content Include="Views\Cart\GetCart.cshtml" />
+    <Content Include="Views\Emails\_ViewStart.cshtml" />
+    <Content Include="Views\Emails\Web.config" />
+    <Content Include="Views\Account\ConfirmAccountInfo.cshtml" />
+    <Content Include="Views\Emails\AccountManagement.cshtml" />
+    <Content Include="Views\Account\EmailIsNotConfirm.cshtml" />
+    <Content Include="Views\Account\ConfirmEmailInfo.cshtml" />
+    <Content Include="Views\Emails\AccountManagement.Html.cshtml" />
+    <Content Include="Views\Emails\AdminMessage.cshtml" />
+    <Content Include="Views\Emails\AdminMessage.Html.cshtml" />
+    <Content Include="Views\Account\AccountIsLocked.cshtml" />
+    <Content Include="Views\Account\MessageWasSent.cshtml" />
+    <Content Include="Views\Manage\EditPersonalData.cshtml" />
+    <Content Include="Views\Manage\EditAddress.cshtml" />
+    <Content Include="Views\Delivery\SelectDeliveryOption.cshtml" />
+    <Content Include="Views\Order\OrderSummaryPreview.cshtml" />
+    <Content Include="Views\Order\OrderFailure.cshtml" />
+    <Content Include="Views\Order\OrderSuccess.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Order\Details.cshtml" />
+    <Content Include="Views\Order\CancelOrder.cshtml" />
+    <Content Include="Views\Order\_UncompletedOrdersPartial.cshtml" />
+    <Content Include="Views\Order\RemoveOrderFromList.cshtml" />
+    <Content Include="Views\Order\UpdateOrderSummaryPreview.cshtml" />
+    <Content Include="Areas\Admin\Views\Order\OrderBill.cshtml" />
+    <Content Include="Views\Manage\AddAddress.cshtml" />
+    <Content Include="Views\Emails\OrderInfo.cshtml" />
+    <Content Include="Views\Emails\OrderInfo.Html.cshtml" />
+    <Content Include="Views\Error\BadRequest.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Payu\PaymentError.cshtml" />
+    <Content Include="Views\Payu\PaymentComplete.cshtml" />
+    <Content Include="Views\Emails\AutoCancelOrder.cshtml" />
+    <Content Include="Views\Emails\AutoCancelOrder.Html.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\ProductThumbnail.cshtml" />
+    <Content Include="Views\Home\MessageSent.cshtml" />
+    <Content Include="Views\Emails\EmailToAdmin.cshtml" />
+    <Content Include="Views\Emails\EmailToAdmin.Html.cshtml" />
+    <Content Include="Views\Error\Forbidden.cshtml" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
+    <Content Include="Scripts\umd\popper.min.js.map" />
+    <Content Include="Scripts\umd\popper.js.map" />
+    <Content Include="Scripts\umd\popper-utils.min.js.map" />
+    <Content Include="Scripts\umd\popper-utils.js.map" />
+    <Content Include="Scripts\README.md" />
+    <Content Include="Scripts\popper.min.js.map" />
+    <Content Include="Scripts\popper.js.map" />
+    <Content Include="Scripts\popper-utils.min.js.map" />
+    <Content Include="Scripts\popper-utils.js.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\Logs\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\PayuController\" />
+    <Folder Include="Areas\Admin\Views\Photo\" />
+    <Folder Include="Areas\Base\Models\" />
+    <Folder Include="ProductsGallery\ProductsGalleryThumbs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
+      <Project>{244850A9-C40B-4089-8CBB-DD5CE40A3B3D}</Project>
+      <Name>DataAccessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Service Layer\Service Layer.csproj">
+      <Project>{91E99E69-D9DB-4C2A-9074-BE7A97060D18}</Project>
+      <Name>Service Layer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Content\favicon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>52303</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:44382/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.3.2\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.3.2\build\Microsoft.Net.Compilers.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

@@ -1,0 +1,108 @@
+﻿@model PagedList.IPagedList<ShopDemo.ViewModels.ProductDeletedFromOfferViewModel>
+@using PagedList.Mvc;
+@using ShopDemo.CustomHelpers;
+
+@{
+    ViewBag.Title = "Lista produktów wycofanych ze sprzedaży";
+}
+
+@Styles.Render("~/Content/pagecss")
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+    <div class="pull-left body-content col-md-5">
+        @using (Html.BeginForm("ProductsDeletedFromOffer", "Product", FormMethod.Get))
+        {
+            <div class="input-group">
+                @Html.TextBox("szukaj", @ViewBag.Search as string, new { @class = "form-control", @placeholder = "Znajdź produkt..." })
+                <div class="input-group-btn">
+                    <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                </div>
+            </div>
+        }
+        <br />
+    </div>
+</div>
+
+<form id="ajaxAntiForgeryTokenForm" action="#" method="post">@Html.AntiForgeryToken()</form>
+
+@Html.Partial("_ConfirmModalPartial")
+
+<input id="selectedCategoryId" type="hidden" value="@ViewBag.CategoryId" />
+<div id="previousCategories" data-url="@Url.Action("RetrivePreviousSelectedCategories","Category", new { area = "Base" })" class="row"></div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="categories" data-url="@Url.Action("GetCategoriesMenuPartial","Category", new { area = "Base" })"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <table class="table">
+            <tr>
+                <th>
+                    Nazwa produktu
+                </th>
+                <th>
+                    Cena
+                </th>
+                <th>
+                    Ilość
+                </th>
+                <th>
+                    Data wycofania
+                </th>
+                <th>
+                    Opcje
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr id="@item.ProductId">
+                    <td>
+                        @Html.ActionLink(item.Name, "ProductDetails", new { productId = item.ProductId, productName = item.Name.ToSeoUrl() }, new { @class = "undecorated" })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DeletedFromOfferDate)
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">
+                                Opcje
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="@Url.Action("AddProductToOffer","Product", new { productId = item.ProductId })" class="btnAddProductToOffer" data-item="@item.Name">Przywróć do sprzedaży</a></li>
+                                <li><a href="@Url.Action("DeleteProduct","Product", new { productId = item.ProductId })" class="btnDeleteProduct" data-item="@item.Name">Usuń</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+
+<div id="paging" style="text-align:right">
+    @Html.PagedListPager(Model, strona => Url.Action("ProductsDeletedFromOffer", new { strona, szukaj = ViewBag.Search }), new PagedListRenderOptions
+{
+    LinkToPreviousPageFormat = "< Poprzednia",
+    LinkToNextPageFormat = "Następna >"
+})
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval", "~/bundles/productsDeletedFromOffer")
+}

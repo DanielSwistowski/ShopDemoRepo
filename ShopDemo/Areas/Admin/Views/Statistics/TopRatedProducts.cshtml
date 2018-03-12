@@ -1,0 +1,55 @@
+﻿@model IEnumerable<ShopDemo.ViewModels.TopRatedProductsViewModel>
+@using ShopDemo.CustomHelpers
+
+@{
+    ViewBag.Title = "Najlepiej oceniane produkty";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row body-content">
+    <div class="pull-right">
+        <p>
+            @{
+                if (ViewBag.SelectedCount == 10)
+                {
+                    @Html.ActionLink("Top10", "TopRatedProducts", new { take = 10 }, new { @class = "btn btn-primary margin-right-5" })
+                    @Html.ActionLink("Top100", "TopRatedProducts", new { take = 100 }, new { @class = "btn btn-info" })
+                }
+                else
+                {
+                    @Html.ActionLink("Top10", "TopRatedProducts", new { take = 10 }, new { @class = "btn btn-info margin-right-5" })
+                    @Html.ActionLink("Top100", "TopRatedProducts", new { take = 100 }, new { @class = "btn btn-primary" })
+                }
+            }
+        </p>
+    </div>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RatesCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AverageRate)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.ProductName, "ProductDetails", "Product", new { productId = item.ProductId, productName = item.ProductName.ToSeoUrl() }, new { @class = "undecorated" })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RatesCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AverageRate)
+        </td>
+    </tr>
+}
+</table>

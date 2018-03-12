@@ -1,0 +1,31 @@
+﻿@model IEnumerable<ShopDemo.ViewModels.ProductThumbnailViewModel>
+
+@{
+    ViewBag.Title = "Strona główna";
+}
+
+<h3 class="alert alert-info">
+    <strong>Uwaga!</strong><br />
+    Prezentowane oprogramowanie to jedynie wersja demonstracyjna sklepu internetowego, a wszystkie dostępne produkty to tylko przykłady.
+</h3>
+
+@{
+    int counter = 0;
+    @:<div class="row">
+    foreach (var product in Model)
+    {
+        if (counter == 3)
+        {
+            counter = 1;
+            @:</div>
+            @:<div class="row">
+            @Html.DisplayFor(m => product, "ProductThumbnail")
+        }
+        else
+        {
+            counter++;
+            @Html.DisplayFor(m => product, "ProductThumbnail")
+        }
+    }
+    @:</div>
+}

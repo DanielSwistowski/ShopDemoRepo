@@ -1,0 +1,75 @@
+﻿@model PagedList.IPagedList<ShopDemo.ViewModels.ProductOrderHistoryViewModel>
+@using PagedList.Mvc
+@using ShopDemo.CustomHelpers
+
+@{
+    ViewBag.Title = "Historia zamówień produktu";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@{
+    if (ViewBag.ProductName != null)
+    {
+        <h4>Wybrany produkt:&nbsp;@ViewBag.ProductName</h4>
+            <br />
+    }
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model[0].OrderId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].OrderDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].OrderStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].OrderedProductCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].TotalAmount)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDate)
+            </td>
+            <td>
+                @Html.GetEnumDisplayName(item.OrderStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderedProductCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalAmount)
+            </td>
+            <td>
+                @Html.ActionLink("Szczegóły", "Details", "Order", new { orderId = item.OrderId }, new { @class = "btn btn-info" })
+            </td>
+        </tr>
+    }
+</table>
+
+<div id="paging" style="text-align:right">
+    @Html.PagedListPager(Model, strona => Url.Action("ProductOrderHistory", new
+{
+    strona,
+    productId= ViewBag.ProductId,
+    productName = ((string)ViewBag.ProductName).ToSeoUrl(),
+}), new PagedListRenderOptions
+{
+    LinkToPreviousPageFormat = "< Poprzednia",
+    LinkToNextPageFormat = "Następna >"
+})
+</div>
